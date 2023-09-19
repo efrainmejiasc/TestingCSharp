@@ -92,7 +92,8 @@ namespace UtilidadesDeSoftware
         {
             //_ = GetTokenAccess();
             //_ = GetTermsAndConditions();
-           _ = AcceptTermsandConditionsAsync();
+            // _ = AcceptTermsandConditionsAsync();
+            _= ValidateCodeAsync();
             //_= TerminosAsync();
         }
 
@@ -191,8 +192,9 @@ namespace UtilidadesDeSoftware
         {
             string respuesta = string.Empty;
             var objauth = await GetTokenAccess();
-            var customer = CreateAcceptaceTerms();
-            var content = JsonConvert.SerializeObject(customer);
+            var responseAccept = await AcceptTermsandConditionsAsync();
+            var validate = CreateValidateCode(responseAccept.data.security.enrollmentKey, "2014756");
+            var content = JsonConvert.SerializeObject(validate);
 
             using (HttpClient client = new HttpClient())
             {
@@ -326,7 +328,7 @@ namespace UtilidadesDeSoftware
             return acceptanceTerms;
         }
 
-        public ValidateCodeRequest CreateValidateCode()
+        public ValidateCodeRequest CreateValidateCode(string key, string code)
         {
             var validateCodeRequest = new ValidateCodeRequest
             {
@@ -334,9 +336,9 @@ namespace UtilidadesDeSoftware
                 {
                     security = new SecurityValidateCodeRequest
                     {
-                        enrollmentKey = "tu_clave_de_inscripcion"  
+                        enrollmentKey = key 
                     },
-                    securityCode = "tu_codigo_de_seguridad"  
+                    securityCode = code
                 }
             };
 
