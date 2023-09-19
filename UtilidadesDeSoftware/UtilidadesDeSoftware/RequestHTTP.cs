@@ -134,14 +134,8 @@ namespace UtilidadesDeSoftware
             var content = JsonConvert.SerializeObject(customer);
             using (HttpClient client = new HttpClient())
             {
-                client.DefaultRequestHeaders.Clear();
-                client.DefaultRequestHeaders.Add("IP", "1.2.1.1.1.1.1.1.1.11");
-                client.DefaultRequestHeaders.Add("deviceId", "123456789");
-                client.DefaultRequestHeaders.Add("Accept", "application/vnd.bancolombia.v4+json");
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", objauth.Access_Token);
-                //client.DefaultRequestHeaders.Add ("Authorization", "Bearer " + objauth.Access_Token);
-                client.DefaultRequestHeaders.Add("Accept", "application/json");
-                client.DefaultRequestHeaders.Add("messageid", "8213586182381y9");
+               SetCommonHeaders(client, objauth.Access_Token);
+
                 Uri url = new Uri("https://gw-sandbox-qa.apps.ambientesbc.com/public-partner/sb/v1/sales-services/customer-management/customer-products/bancolombiapay-deposit-products-management/product-opening/retrieveTerms", UriKind.Absolute);
                 HttpResponseMessage response = await client.PostAsync(url, new StringContent(content, Encoding.UTF8, "application/vnd.bancolombia.v4+json"));
                 if (response.IsSuccessStatusCode)
@@ -153,6 +147,18 @@ namespace UtilidadesDeSoftware
             }
 
             return null;
+        }
+
+        private HttpClient SetCommonHeaders(HttpClient client, string token)
+        {
+            client.DefaultRequestHeaders.Clear();
+            client.DefaultRequestHeaders.Add("IP", "1.2.1.1.1.1.1.1.1.11");
+            client.DefaultRequestHeaders.Add("deviceId", "123456789");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            client.DefaultRequestHeaders.Add("Accept", "application/json");
+            client.DefaultRequestHeaders.Add("messageid", "8213586182381y9");
+
+            return client;
         }
 
         //MzFlNjU0ZWJjZGUzMmI4NmNkNTVlNDYxOTQyYzQ4MDI6MWJhNDJkOWNlMGY2MWU0MmM4ZThlMDg4N2RkNWQ3OWQ=
