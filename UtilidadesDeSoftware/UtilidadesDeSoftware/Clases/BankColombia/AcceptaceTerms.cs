@@ -10,7 +10,7 @@ namespace UtilidadesDeSoftware.Clases
     {
         public Data_AcceptaceTerms data { get; set; }
     }
-    // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse);
+
     public class ClausesCustomer
     {
         public string version { get; set; }

@@ -124,7 +124,7 @@
     <Compile Include="Cadenas.Designer.cs">
       <DependentUpon>Cadenas.cs</DependentUpon>
     </Compile>
-    <Compile Include="Clases\AcceptaceTerms.cs" />
+    <Compile Include="Clases\BankColombia\AcceptaceTerms.cs" />
     <Compile Include="Clases\BankColombia\BankColombiaCustomer.cs" />
     <Compile Include="Clases\BankColombia\BankColombiaInstrospectResponse.cs" />
     <Compile Include="Clases\BankColombia\BankColombiaTokenResponse.cs" />
