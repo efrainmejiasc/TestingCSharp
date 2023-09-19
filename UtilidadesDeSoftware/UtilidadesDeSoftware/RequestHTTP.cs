@@ -137,7 +137,7 @@ namespace UtilidadesDeSoftware
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Add("IP", "1.2.1.1.1.1.1.1.1.11");
                 client.DefaultRequestHeaders.Add("deviceId", "123456789");
-                client.DefaultRequestHeaders.Add("Accept", "application/vnd.bancolombia.v4+json");
+                //client.DefaultRequestHeaders.Add("Accept", "application/vnd.bancolombia.v4+json");
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", objauth.Access_Token);
                 //client.DefaultRequestHeaders.Add ("Authorization", "Bearer " + objauth.Access_Token);
                 client.DefaultRequestHeaders.Add("Accept", "application/json");
