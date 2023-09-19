@@ -125,9 +125,11 @@
       <DependentUpon>Cadenas.cs</DependentUpon>
     </Compile>
     <Compile Include="Clases\BankColombia\AcceptaceTerms.cs" />
+    <Compile Include="Clases\BankColombia\AcceptTermsAndConditionsResponse.cs" />
     <Compile Include="Clases\BankColombia\BankColombiaCustomer.cs" />
     <Compile Include="Clases\BankColombia\BankColombiaInstrospectResponse.cs" />
     <Compile Include="Clases\BankColombia\BankColombiaTokenResponse.cs" />
+    <Compile Include="Clases\BankColombia\GetTermsAndConditionsResponse.cs" />
     <Compile Include="Clases\Enumeradores\EnumSex.cs" />
     <Compile Include="Clases\HTTPClass\AuthRenaper.cs" />
     <Compile Include="Clases\HTTPClass\DatosPorDniSexo.cs" />

@@ -94,6 +94,7 @@ namespace UtilidadesDeSoftware
         private void button2_Click(object sender, EventArgs e)
         {
             //_ = GetTokenAccess();
+            //_ = GetTermsAndConditions();
            _ = AcceptTermsandConditionsAsync();
             //_= TerminosAsync();
         }
@@ -127,9 +128,12 @@ namespace UtilidadesDeSoftware
 
 
 
-        public async Task<BankColombiaTokenResponse> GetTermsAndConditions()
+        public async Task<GetTermsAndConditionsResponse> GetTermsAndConditions()
         {
             string respuesta = string.Empty;
+            var objauth = await GetTokenAccess();
+            var customer = CreateCustomer();
+            var content = JsonConvert.SerializeObject(customer);
             using (HttpClient client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Clear();
@@ -141,13 +145,12 @@ namespace UtilidadesDeSoftware
                 client.DefaultRequestHeaders.Add("Accept", "application/json");
                 client.DefaultRequestHeaders.Add("messageid", "8213586182381y9");
                 Uri url = new Uri("https://gw-sandbox-qa.apps.ambientesbc.com/public-partner/sb/v1/sales-services/customer-management/customer-products/bancolombiapay-deposit-products-management/product-opening/retrieveTerms", UriKind.Absolute);
-                HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post,url);
-
-                var response = await client.SendAsync(request);
+                HttpResponseMessage response = await client.PostAsync(url, new StringContent(content, Encoding.UTF8, "application/vnd.bancolombia.v4+json"));
                 if (response.IsSuccessStatusCode)
                 {
                     respuesta = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<BankColombiaTokenResponse>(respuesta);
+                    var obj =  JsonConvert.DeserializeObject<GetTermsAndConditionsResponse>(respuesta);
+                    return obj;
                 }
             }
 
@@ -156,7 +159,7 @@ namespace UtilidadesDeSoftware
 
         //MzFlNjU0ZWJjZGUzMmI4NmNkNTVlNDYxOTQyYzQ4MDI6MWJhNDJkOWNlMGY2MWU0MmM4ZThlMDg4N2RkNWQ3OWQ=
 
-        public async Task<BankColombiaTokenResponse> AcceptTermsandConditionsAsync()
+        public async Task<AcceptTermsAndConditionsResponse> AcceptTermsandConditionsAsync()
         {
             string respuesta = string.Empty;
             var objauth = await GetTokenAccess();
@@ -178,7 +181,8 @@ namespace UtilidadesDeSoftware
                 if (response.IsSuccessStatusCode)
                 {
                     respuesta = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<BankColombiaTokenResponse>(respuesta);
+                    var obj = JsonConvert.DeserializeObject<AcceptTermsAndConditionsResponse>(respuesta);
+                    return obj;
                 }
             }
 
@@ -189,7 +193,7 @@ namespace UtilidadesDeSoftware
         public async Task<string> GetCustomer()
         {
             var objAuth = await  GetTokenAccess();
-            var customer = CreateBankColombiaCustomer();
+            var customer = CreateCustomer();
             var content = JsonConvert.SerializeObject(customer);
             string respuesta = string.Empty;
 
@@ -223,7 +227,7 @@ namespace UtilidadesDeSoftware
             return respuesta;
         }
 
-        public BankColombiaCustomer CreateBankColombiaCustomer()
+        public BankColombiaCustomer CreateCustomer()
         {
             var bankCustomer = new BankColombiaCustomer
             {
@@ -254,16 +258,16 @@ namespace UtilidadesDeSoftware
                     contactDetail = new ContactDetail
                     {
                         email = "correo@ejemplo.com",
-                        mobilePhoneNumber = "1234567890"
+                        mobilePhoneNumber = "+573002697624"
                     },
                     personalData = new PersonalData
                     {
-                        firstName = "Nombre",
-                        firstSurname = "Apellido",
+                        firstName = "Carlos",
+                        firstSurname = "Perez",
                         birthDate = "1972-02-08",
                         politicallyExposedPerson = true,
-                        secondName = "Segundo Nombre",
-                        secondSurname = "Segundo Apellido"
+                        secondName = "Carlos",
+                        secondSurname = "Perez"
                     },
                     termsCondition = new TermsCondition
                     {
