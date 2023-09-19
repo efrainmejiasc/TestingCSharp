@@ -91,9 +91,9 @@ namespace UtilidadesDeSoftware
         private void button2_Click(object sender, EventArgs e)
         {
             //_ = GetTokenAccess();
-            //_ = GetTermsAndConditions();
+            _ = GetTermsAndConditions();
             // _ = AcceptTermsandConditionsAsync();
-            _= ValidateCodeAsync();
+            //_= ValidateCodeAsync();
             //_= TerminosAsync();
         }
 
@@ -267,10 +267,10 @@ namespace UtilidadesDeSoftware
                     {
                         identification = new Identification
                         {
-                            //type = "CC",
-                            type = "CE",
+                            type = "CC",
+                           // type = "CE",
                             number = "1234567890",
-                            issuedDate = DateTime.Now.Date.ToString()
+                            issuedDate = DateTime.Now.Date.ToString("yyyy-MM-dd")
                         }
                     }
                 }
