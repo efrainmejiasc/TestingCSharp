@@ -1,12 +1,9 @@
-﻿using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -189,6 +186,37 @@ namespace UtilidadesDeSoftware
             return null;
         }
 
+
+        public async Task<AcceptTermsAndConditionsResponse> ValidateCodeAsync()
+        {
+            string respuesta = string.Empty;
+            var objauth = await GetTokenAccess();
+            var customer = CreateAcceptaceTerms();
+            var content = JsonConvert.SerializeObject(customer);
+
+            using (HttpClient client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Add("IP", "1.2.1.1.1.1.1.1.1.11");
+                client.DefaultRequestHeaders.Add("deviceId", "123456789");
+                client.DefaultRequestHeaders.Add("Accept", "application/vnd.bancolombia.v4+json");
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", objauth.Access_Token);
+                //client.DefaultRequestHeaders.Add ("Authorization", "Bearer " + objauth.Access_Token);
+                client.DefaultRequestHeaders.Add("Accept", "application/json");
+                client.DefaultRequestHeaders.Add("messageid", "8213586182381y9");
+                var url = "https://gw-sandbox-qa.apps.ambientesbc.com/public-partner/sb/v1/sales-services/customer-management/customer-products/bancolombiapay-deposit-products-management/product-opening/validateCode";
+                HttpResponseMessage response = await client.PostAsync(url, new StringContent(content, Encoding.UTF8, "application/vnd.bancolombia.v4+json"));
+                if (response.IsSuccessStatusCode)
+                {
+                    respuesta = await response.Content.ReadAsStringAsync();
+                    var obj = JsonConvert.DeserializeObject<AcceptTermsAndConditionsResponse>(respuesta);
+                    return obj;
+                }
+            }
+
+            return null;
+        }
+
         //Customers
         public async Task<string> GetCustomer()
         {
@@ -258,7 +286,7 @@ namespace UtilidadesDeSoftware
                     contactDetail = new ContactDetail
                     {
                         email = "correo@ejemplo.com",
-                        mobilePhoneNumber = "+573002697624"
+                        mobilePhoneNumber = "3002697624"
                     },
                     personalData = new PersonalData
                     {
@@ -291,12 +319,34 @@ namespace UtilidadesDeSoftware
                     {
                         enrollmentKey = "clave123"
                     },
-                    identification = 1234567890 // Aquí debes usar el tipo de dato correcto para la identificación
+                    identification = 1234567890  
                 }
             };
 
             return acceptanceTerms;
         }
+
+        public ValidateCodeRequest CreateValidateCode()
+        {
+            var validateCodeRequest = new ValidateCodeRequest
+            {
+                data = new DataValidateCodeRequest
+                {
+                    security = new SecurityValidateCodeRequest
+                    {
+                        enrollmentKey = "tu_clave_de_inscripcion"  
+                    },
+                    securityCode = "tu_codigo_de_seguridad"  
+                }
+            };
+
+            return validateCodeRequest;
+        }
+    
+
+
+       
+
         private void button3_Click(object sender, EventArgs e)
         {
             GenerarCertificado();

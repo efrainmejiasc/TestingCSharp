@@ -130,6 +130,7 @@
     <Compile Include="Clases\BankColombia\BankColombiaInstrospectResponse.cs" />
     <Compile Include="Clases\BankColombia\BankColombiaTokenResponse.cs" />
     <Compile Include="Clases\BankColombia\GetTermsAndConditionsResponse.cs" />
+    <Compile Include="Clases\BankColombia\ValidateCodeRequest.cs" />
     <Compile Include="Clases\Enumeradores\EnumSex.cs" />
     <Compile Include="Clases\HTTPClass\AuthRenaper.cs" />
     <Compile Include="Clases\HTTPClass\DatosPorDniSexo.cs" />
