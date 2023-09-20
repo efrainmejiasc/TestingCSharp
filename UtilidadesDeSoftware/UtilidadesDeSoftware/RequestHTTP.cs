@@ -91,10 +91,12 @@ namespace UtilidadesDeSoftware
         private void button2_Click(object sender, EventArgs e)
         {
             //_ = GetTokenAccess();
-            _ = GetTermsAndConditions();
-            // _ = AcceptTermsandConditionsAsync();
+            ///_ = GetTermsAndConditions();
+             //_ = AcceptTermsandConditionsAsync();
             //_= ValidateCodeAsync();
             //_= TerminosAsync();
+
+            _ = CreateProduct();
         }
 
         public async Task<BankColombiaTokenResponse> GetTokenAccess()
@@ -124,8 +126,6 @@ namespace UtilidadesDeSoftware
             return null;
         }
 
-
-
         public async Task<GetTermsAndConditionsResponse> GetTermsAndConditions()
         {
             string respuesta = string.Empty;
@@ -148,7 +148,6 @@ namespace UtilidadesDeSoftware
 
             return null;
         }
-
         private HttpClient SetCommonHeaders(HttpClient client, string token)
         {
             client.DefaultRequestHeaders.Clear();
@@ -193,7 +192,6 @@ namespace UtilidadesDeSoftware
             return null;
         }
 
-
         public async Task<AcceptTermsAndConditionsResponse> ValidateCodeAsync()
         {
             string respuesta = string.Empty;
@@ -213,6 +211,36 @@ namespace UtilidadesDeSoftware
                 client.DefaultRequestHeaders.Add("Accept", "application/json");
                 client.DefaultRequestHeaders.Add("messageid", "8213586182381y9");
                 var url = "https://gw-sandbox-qa.apps.ambientesbc.com/public-partner/sb/v1/sales-services/customer-management/customer-products/bancolombiapay-deposit-products-management/product-opening/validateCode";
+                HttpResponseMessage response = await client.PostAsync(url, new StringContent(content, Encoding.UTF8, "application/vnd.bancolombia.v4+json"));
+                if (response.IsSuccessStatusCode)
+                {
+                    respuesta = await response.Content.ReadAsStringAsync();
+                    var obj = JsonConvert.DeserializeObject<AcceptTermsAndConditionsResponse>(respuesta);
+                    return obj;
+                }
+            }
+
+            return null;
+        }
+
+        public async Task<AcceptTermsAndConditionsResponse> CreateProduct()
+        {
+            string respuesta = string.Empty;
+            var objauth = await GetTokenAccess();
+            var responseAccept = await AcceptTermsandConditionsAsync();
+            var validate = CreateValidateCode(responseAccept.data.security.enrollmentKey, "2014756");
+            var content = JsonConvert.SerializeObject(validate);
+
+            using (HttpClient client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Add("IP", "1.2.1.1.1.1.1.1.1.11");
+                client.DefaultRequestHeaders.Add("deviceId", "123456789");
+                client.DefaultRequestHeaders.Add("Accept", "application/vnd.bancolombia.v4+json");
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", objauth.Access_Token);
+                client.DefaultRequestHeaders.Add("Accept", "application/json");
+                client.DefaultRequestHeaders.Add("messageid", "8213586182381y9");
+                var url = "https://gw-sandbox-qa.apps.ambientesbc.com/public-partner/sb/v1/sales-services/customer-management/customer-products/bancolombiapay-deposit-products-management/product-opening/createProduct";
                 HttpResponseMessage response = await client.PostAsync(url, new StringContent(content, Encoding.UTF8, "application/vnd.bancolombia.v4+json"));
                 if (response.IsSuccessStatusCode)
                 {
