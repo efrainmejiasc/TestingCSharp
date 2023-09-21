@@ -126,6 +126,7 @@
     </Compile>
     <Compile Include="Clases\BankColombia\AcceptaceTerms.cs" />
     <Compile Include="Clases\BankColombia\AcceptTermsAndConditionsResponse.cs" />
+    <Compile Include="Clases\BankColombia\BankColombiaCreateProductRequest.cs" />
     <Compile Include="Clases\BankColombia\BankColombiaCustomer.cs" />
     <Compile Include="Clases\BankColombia\BankColombiaInstrospectResponse.cs" />
     <Compile Include="Clases\BankColombia\BankColombiaTokenResponse.cs" />
