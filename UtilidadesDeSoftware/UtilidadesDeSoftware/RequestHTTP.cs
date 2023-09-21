@@ -90,13 +90,15 @@ namespace UtilidadesDeSoftware
 
         private void button2_Click(object sender, EventArgs e)
         {
-            //_ = GetTokenAccess();
+            // _ = GetTokenAccess();
             ///_ = GetTermsAndConditions();
-             //_ = AcceptTermsandConditionsAsync();
+            //_ = AcceptTermsandConditionsAsync();
             //_= ValidateCodeAsync();
             //_= TerminosAsync();
 
-            _ = CreateProduct();
+            //_ = CreateProduct();
+
+            _ = TestingALM();
         }
 
         public async Task<BankColombiaTokenResponse> GetTokenAccess()
@@ -113,7 +115,7 @@ namespace UtilidadesDeSoftware
                 Uri url = new Uri("https://gw-sandbox-qa.apps.ambientesbc.com/public-partner/sb/security/oauth-provider/oauth2/token", UriKind.Absolute);
                 List<KeyValuePair<string, string>> formData = new List<KeyValuePair<string, string>>();
                 formData.Add(new KeyValuePair<string, string>("grant_type", "client_credentials"));
-                formData.Add(new KeyValuePair<string, string>("scope", "Terms-register:write:user TermsConditions:read:user SecurityCode:read:app BancolombiaPay-wallet:write:user"));//Validate
+                formData.Add(new KeyValuePair<string, string>("scope", "Terms-register:write:user TermsConditions:read:user SecurityCode:read:app BancolombiaPay-wallet:write:user Customer-token:write:user Customer-viability:read:app"));//Validate
                 HttpContent content = new FormUrlEncodedContent(formData);
                 HttpResponseMessage response = await client.PostAsync(url, content);
                 if (response.IsSuccessStatusCode)
@@ -251,6 +253,32 @@ namespace UtilidadesDeSoftware
             }
 
             return null;
+        }
+
+
+        public async Task<string> TestingALM()
+        {
+            string respuesta = string.Empty;
+            var objauth = await GetTokenAccess();
+            var responseAccept = await AcceptTermsandConditionsAsync();
+            var validate = CreateValidateCode(responseAccept.data.security.enrollmentKey, "2014756");
+            var content = JsonConvert.SerializeObject(validate);
+
+            using (HttpClient client = new HttpClient())
+            {
+                SetCommonHeaders(client, objauth.Access_Token);
+
+                Uri url = new Uri("https://gw-sandbox-qa.apps.ambientesbc.com/public-partner/sb/v1/operations/product-specific/consumer-services/brokered-product/bancolombiapay-wallet-syncing/customer/validate", UriKind.Absolute);
+                HttpResponseMessage response = await client.PostAsync(url, new StringContent(content, Encoding.UTF8, "application/vnd.bancolombia.v4+json"));
+                //if (response.IsSuccessStatusCode)
+                //{
+                    respuesta = await response.Content.ReadAsStringAsync();
+                    //var obj = JsonConvert.DeserializeObject<GetTermsAndConditionsResponse>(respuesta);
+                    //return obj;
+                //}
+            }
+
+            return respuesta;
         }
 
         //Customers
