@@ -92,7 +92,7 @@ namespace UtilidadesDeSoftware
         {
             // _ = GetTokenAccess();
             ///_ = GetTermsAndConditions();
-            //_ = AcceptTermsandConditionsAsync();
+            _ = AcceptTermsandConditionsAsync();
             //_= ValidateCodeAsync();
             //_= TerminosAsync();
 
