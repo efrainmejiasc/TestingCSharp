@@ -15,7 +15,7 @@ namespace UtilidadesDeSoftware.Clases.BankColombia
 
     public class MetaCIRetrieveStatusTransactionResponse
     {
-        public string description { get; set; }
+       // public string description { get; set; }
         public string _messageId { get; set; }
         public DateTime _requestDateTime { get; set; }
         public string _applicationId { get; set; }

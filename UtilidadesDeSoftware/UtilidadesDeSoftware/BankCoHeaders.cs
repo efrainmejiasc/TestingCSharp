@@ -60,6 +60,33 @@ namespace UtilidadesDeSoftware
             return null;
         }
 
+        public async Task<BankCoCIRetrieveTermsResponseDto> BankCoCIRetrieveTerms()
+        {
+            string respuesta = string.Empty;
+            var objauth = await GetTokenAccess();
+            var content = JsonConvert.SerializeObject(SetObjectClass.SetCIRetrieveTerms());
+            using (HttpClient client = new HttpClient())
+            {
+                SetCommonHeaders(client, objauth.Access_Token);
+
+                Uri url = new Uri("https://gw-sandbox-qa.apps.ambientesbc.com/public-partner/sb/v1/operations/product-specific/trade-banking/cash-management/bancolombiapay-cash-in/financial-gateway-cash-in/terms/cash-in-pse", UriKind.Absolute);
+                HttpResponseMessage response = await client.PostAsync(url, new StringContent(content, Encoding.UTF8, "application/vnd.bancolombia.v4+json"));
+                if (response.IsSuccessStatusCode)
+                {
+                    respuesta = await response.Content.ReadAsStringAsync();
+                    var obj = JsonConvert.DeserializeObject<BankCoCIRetrieveTermsResponseDto>(respuesta);
+                    return obj;
+                }
+                else
+                {
+                    respuesta = await response.Content.ReadAsStringAsync();
+                    var obj = JsonConvert.DeserializeObject<BankCoCIRetrieveTermsResponseDto>(respuesta);
+                }
+            }
+
+            return null;
+        }
+
 
         public async Task<BankCoCIPrepareTransactionResponseDto> BankCoCIPrepareTransaction()
         {
@@ -86,6 +113,34 @@ namespace UtilidadesDeSoftware
 
             return null;
         }
+
+        public async Task<BankCoCIRetrieveStatusTransactionResponseDto> BankCoCIRetrieveStatus()
+        {
+            string respuesta = string.Empty;
+            var objauth = await GetTokenAccess();
+            var content = JsonConvert.SerializeObject(SetObjectClass.SetCIRetrieveStatus());
+            using (HttpClient client = new HttpClient())
+            {
+                SetCommonHeaders(client, objauth.Access_Token);
+
+                Uri url = new Uri("https://gw-sandbox-qa.apps.ambientesbc.com/public-partner/sb/v1/operations/product-specific/trade-banking/cash-management/bancolombiapay-cash-in/financial-gateway-cash-in/transaccions/cash-in-pse-status", UriKind.Absolute);
+                HttpResponseMessage response = await client.PostAsync(url, new StringContent(content, Encoding.UTF8, "application/vnd.bancolombia.v4+json"));
+                if (response.IsSuccessStatusCode)
+                {
+                    respuesta = await response.Content.ReadAsStringAsync();
+                    var obj = JsonConvert.DeserializeObject<BankCoCIRetrieveStatusTransactionResponseDto>(respuesta);
+                    return obj;
+                }
+                else
+                {
+                    respuesta = await response.Content.ReadAsStringAsync();
+                    var obj = JsonConvert.DeserializeObject<BankCoCIRetrieveStatusTransactionResponseDto>(respuesta);
+                }
+            }
+
+            return null;
+        }
+
         private HttpClient SetCommonHeaders(HttpClient client, string token)
         {
             client.DefaultRequestHeaders.Clear();
@@ -147,9 +202,10 @@ namespace UtilidadesDeSoftware
 
         private void button1_Click(object sender, EventArgs e)
         {
-           // _ = GetTermsAndConditions();
-            _ = BankCoCIPrepareTransaction();
-
+            // _ = GetTermsAndConditions();
+            //_ = BankCoCIRetrieveTerms();
+            // _ = BankCoCIPrepareTransaction();
+            _ = BankCoCIRetrieveStatus();
         }
     }
 }

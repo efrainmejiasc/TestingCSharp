@@ -9,29 +9,29 @@ namespace UtilidadesDeSoftware.Clases.BankColombia
 {
     public class BankCoCIRetrieveStatusTransactionRequestDto
     {
-        public DataCIRetrieveStatusTransactionRequest Data { get; set; }
+        public DataCIRetrieveStatusTransactionRequest data { get; set; }
     }
 
     public class DataCIRetrieveStatusTransactionRequest
     {
-        public OperationCIRetrieveStatusTransactionRequest Operation { get; set; }
+        public OperationCIRetrieveStatusTransactionRequest operation { get; set; }
     }
 
     public class OperationCIRetrieveStatusTransactionRequest
     {
-        public CustomerCIRetrieveStatusTransactionRequest Customer { get; set; }
-        public string IdentifierRecordPrepared { get; set; }
+        public CustomerCIRetrieveStatusTransactionRequest customer { get; set; }
+        public string identifierRecordPrepared { get; set; }
     }
 
     public class CustomerCIRetrieveStatusTransactionRequest
     {
-        public IdentificationCIRetrieveStatusTransactionRequest Identification { get; set; }
+        public IdentificationCIRetrieveStatusTransactionRequest identification { get; set; }
     }
 
     public class IdentificationCIRetrieveStatusTransactionRequest
     {
         [StringLength(33, MinimumLength = 1, ErrorMessage = "La longitud debe estar entre 1 y 33 caracteres.")]
-        public string RelationshipId { get; set; }
+        public string relationshipId { get; set; }
     }
 
 }

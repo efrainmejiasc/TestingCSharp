@@ -19,7 +19,7 @@ namespace UtilidadesDeSoftware.Clases.BankColombia
 
     public class CustomerCIRetrieveTermsRequest
     {
-        public Identification identification { get; set; }
+        public IdentificationCIRetrieveTermsRequest identification { get; set; }
     }
 
     public class IdentificationCIRetrieveTermsRequest
