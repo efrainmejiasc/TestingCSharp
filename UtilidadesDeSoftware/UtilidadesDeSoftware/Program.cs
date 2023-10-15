@@ -16,7 +16,7 @@ namespace UtilidadesDeSoftware
        {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new RequestHTTP ());
+            Application.Run(new BankCoHeaders());
         }
     }
 }

@@ -73,10 +73,17 @@
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="RestApiClient, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestApiClient.1.1.1.0\lib\net40\RestApiClient.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp, Version=105.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.105.1.0\lib\net452\RestSharp.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
     </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.IdentityModel.Tokens.Jwt, Version=6.32.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\System.IdentityModel.Tokens.Jwt.6.32.1\lib\net472\System.IdentityModel.Tokens.Jwt.dll</HintPath>
@@ -118,6 +125,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BankCoHeaders.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BankCoHeaders.Designer.cs">
+      <DependentUpon>BankCoHeaders.cs</DependentUpon>
+    </Compile>
     <Compile Include="Cadenas.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -126,11 +139,20 @@
     </Compile>
     <Compile Include="Clases\BankColombia\AcceptaceTerms.cs" />
     <Compile Include="Clases\BankColombia\AcceptTermsAndConditionsResponse.cs" />
+    <Compile Include="Clases\BankColombia\BankCoCIPrepareTransactionRequestDto.cs" />
+    <Compile Include="Clases\BankColombia\BankCoCIPrepareTransactionRequestSignature.cs" />
+    <Compile Include="Clases\BankColombia\BankCoCIPrepareTransactionResponseDto.cs" />
+    <Compile Include="Clases\BankColombia\BankCoCIRetrieveStatusTransactionResponseDto.cs" />
+    <Compile Include="Clases\BankColombia\BankCoCIRetrieveTermsRequestDto.cs" />
+    <Compile Include="Clases\BankColombia\BankCoCIRetrieveTermsResponseDto.cs" />
     <Compile Include="Clases\BankColombia\BankColombiaCreateProductRequest.cs" />
     <Compile Include="Clases\BankColombia\BankColombiaCustomer.cs" />
     <Compile Include="Clases\BankColombia\BankColombiaInstrospectResponse.cs" />
     <Compile Include="Clases\BankColombia\BankColombiaTokenResponse.cs" />
+    <Compile Include="Clases\BankColombia\BankCoCIRetrieveStatusTransactionRequestDto.cs" />
     <Compile Include="Clases\BankColombia\GetTermsAndConditionsResponse.cs" />
+    <Compile Include="Clases\BankColombia\Helper\SetObjectClass.cs" />
+    <Compile Include="Clases\BankColombia\ScopeCashIn.cs" />
     <Compile Include="Clases\BankColombia\ValidateCodeRequest.cs" />
     <Compile Include="Clases\Enumeradores\EnumSex.cs" />
     <Compile Include="Clases\HTTPClass\AuthRenaper.cs" />
@@ -162,6 +184,9 @@
     <Compile Include="TestBooleano.Designer.cs">
       <DependentUpon>TestBooleano.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="BankCoHeaders.resx">
+      <DependentUpon>BankCoHeaders.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Cadenas.resx">
       <DependentUpon>Cadenas.cs</DependentUpon>
     </EmbeddedResource>
