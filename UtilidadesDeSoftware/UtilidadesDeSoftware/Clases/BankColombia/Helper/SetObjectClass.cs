@@ -66,7 +66,7 @@ namespace UtilidadesDeSoftware.Clases.BankColombia.Helper
                     {
                         identification = new IdentificationCIRetrieveTermsRequest
                         {
-                            relationshipId = "ExampleRelationshipId"
+                            relationshipId = "R7664a8c9a83e4ddf860c9c0a3e0416f3"
                         }
                     }
                 }
@@ -93,6 +93,48 @@ namespace UtilidadesDeSoftware.Clases.BankColombia.Helper
                         },
                         identifierRecordPrepared = "ExampleIdentifierRecordPrepared"
                     }
+                }
+            };
+
+            return requestDto;
+        }
+
+        public static BankCoTransferBetweenAccountsResponseDto SetTransferBetweenAccounts()
+        {
+            var requestDto = new BankCoTransferBetweenAccountsResponseDto
+            {
+                data = new DataTransferBetweenAccountsResponse
+                {
+                    customer = new CustomerTransferBetweenAccountsResponse
+                    {
+                        identification = new IdentificationTransferBetweenAccountsResponse
+                        {
+                            relationshipId = "F1E4F933826EE5FF33"
+                        }
+                    },
+                    transaction = new TransactionTransferBetweenAccountsResponse
+                    {
+                        user = "sve",
+                        trackingId = "TRQuwkohH0e2",
+                        key = "Crédito",
+                        amount = "50000",
+                        reference1 = "1234567890",
+                        transactionDate = "2021-09-08T10:42:13"
+                    },
+                    thirdpartyDestinationAccount = new ThirdpartyDestinationAccountTransferBetweenAccountsResponse
+                    {
+                        account = new AccountTransferBetweenAccountsResponse
+                        {
+                            type = "CUENTA_DE_AHORRO",
+                            number = "51478643212"
+                        },
+                        identification = new IdentificationAccountTransferBetweenAccountsResponse
+                        {
+                            type = "NIT",
+                            number = "900589687"
+                        }
+                    }
+
                 }
             };
 

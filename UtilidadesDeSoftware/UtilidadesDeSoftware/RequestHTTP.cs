@@ -127,9 +127,10 @@ namespace UtilidadesDeSoftware
                 Uri url = new Uri("https://gw-sandbox-qa.apps.ambientesbc.com/public-partner/sb/security/oauth-provider/oauth2/token", UriKind.Absolute);
                 List<KeyValuePair<string, string>> formData = new List<KeyValuePair<string, string>>();
                 formData.Add(new KeyValuePair<string, string>("grant_type", "client_credentials"));
-                formData.Add(new KeyValuePair<string, string>("scope", "Terms-register:write:user TermsConditions:read:user SecurityCode:read:app BancolombiaPay-wallet:write:user Customer-token:write:user Customer-viability:read:app Product-balance:read:user"));
+                //formData.Add(new KeyValuePair<string, string>("scope", "Terms-register:write:user TermsConditions:read:user SecurityCode:read:app BancolombiaPay-wallet:write:user Customer-token:write:user Customer-viability:read:app Product-balance:read:user"));
                 //formData.Add(new KeyValuePair<string, string>("scope", "TermsConditions-register:write:user TermsConditions:read:user"));
                 //formData.Add(new KeyValuePair<string, string>("scope", "Products-payment:read:user BancolombiaPay-wallet:write:user"));
+                //formData.Add(new KeyValuePair<string, string>("scope", "Product-balance:read:user"));
                 HttpContent content = new FormUrlEncodedContent(formData);
                 HttpResponseMessage response = await client.PostAsync(url, content);
                 if (response.IsSuccessStatusCode)
@@ -654,12 +655,12 @@ namespace UtilidadesDeSoftware
 
                 // Exportar el certificado en formato X.509 codificado en base 64 (.crt)
                 var base64Certificate = Convert.ToBase64String(certificate.Export(X509ContentType.Cert));
-                var pathToSaveCrt = "C:/Users/EfrainMejiasC/Downloads/Maas/BankColombia/BankColombiaCertificado.crt";
+                var pathToSaveCrt = "C:/Users/DELL/Downloads/TaskMaas/BankColombiaCertificado.crt";
                 File.WriteAllText(pathToSaveCrt, base64Certificate);
 
                 // Exportar la clave privada junto con el certificado en formato PFX
                 var pfxBytes = certificate.Export(X509ContentType.Pfx, "1234Santiago");
-                var pathToSavePfx = "C:/Users/EfrainMejiasC/Downloads/Maas/BankColombia/BankColombiaCertificado.pfx";
+                var pathToSavePfx = "C:/Users/DELL/Downloads/TaskMaas/BankColombiaCertificado.pfx";
                 File.WriteAllBytes(pathToSavePfx, pfxBytes);
             }
         }
@@ -667,7 +668,7 @@ namespace UtilidadesDeSoftware
 
 
 
-public class BankcoApiService
+        public class BankcoApiService
     {
         private readonly HttpClient _httpClient;
 
