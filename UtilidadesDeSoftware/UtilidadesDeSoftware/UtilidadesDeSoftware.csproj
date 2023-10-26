@@ -151,7 +151,7 @@
     <Compile Include="Clases\BankColombia\BankColombiaTokenResponse.cs" />
     <Compile Include="Clases\BankColombia\BankCoCIRetrieveStatusTransactionRequestDto.cs" />
     <Compile Include="Clases\BankColombia\GetTermsAndConditionsResponse.cs" />
-    <Compile Include="Clases\BankColombia\BankCoTransferBetweenAccountsResponseDto.cs" />
+    <Compile Include="Clases\BankColombia\BankCoTransferBetweenAccountsRequestDto.cs" />
     <Compile Include="Clases\BankColombia\Helper\SetObjectClass.cs" />
     <Compile Include="Clases\BankColombia\ScopeCashIn.cs" />
     <Compile Include="Clases\BankColombia\ValidateCodeRequest.cs" />

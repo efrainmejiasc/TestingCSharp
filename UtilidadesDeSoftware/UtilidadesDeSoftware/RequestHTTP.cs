@@ -638,7 +638,7 @@ namespace UtilidadesDeSoftware
             var localityName = "MEDELLIN";
             var organizationName = "VetticaMaasApp S.A.";
             var organizationalUnitName = "BANCOLOMBIA";
-            var commonName = "VetticaMaasApp.com";
+            var commonName = "Maspay.com";
 
             // Tamaño de clave recomendado
             var keySize = 2048;
