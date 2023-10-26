@@ -157,6 +157,7 @@
     <Compile Include="Clases\BankColombia\BankCoTransferBetweenAccountsRequestDto.cs" />
     <Compile Include="Clases\BankColombia\Helper\SetObjectClass.cs" />
     <Compile Include="Clases\BankColombia\ScopeCashIn.cs" />
+    <Compile Include="Clases\BankColombia\SetNuevos.cs" />
     <Compile Include="Clases\BankColombia\ValidateCodeRequest.cs" />
     <Compile Include="Clases\Enumeradores\EnumSex.cs" />
     <Compile Include="Clases\HTTPClass\AuthRenaper.cs" />

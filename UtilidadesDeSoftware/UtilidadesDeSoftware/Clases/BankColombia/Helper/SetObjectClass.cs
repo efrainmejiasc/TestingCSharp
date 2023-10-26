@@ -140,6 +140,10 @@ namespace UtilidadesDeSoftware.Clases.BankColombia.Helper
 
             return requestDto;
         }
+
+
+ 
+
     }
 }
 
