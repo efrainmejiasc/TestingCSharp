@@ -146,7 +146,7 @@ namespace UtilidadesDeSoftware
         }
 
 
-        public async Task<BankCoTransferBetweenAccountsResponseDto> TransferBetweenAccounts()
+        public async Task<Clases.BankColombia.BankCoTransferBetweenAccountsResponseDto> TransferBetweenAccounts()
         {
             string respuesta = string.Empty;
             var objauth = await GetTokenAccess();
@@ -160,13 +160,13 @@ namespace UtilidadesDeSoftware
                 if (response.IsSuccessStatusCode)
                 {
                     respuesta = await response.Content.ReadAsStringAsync();
-                    var obj = JsonConvert.DeserializeObject<BankCoTransferBetweenAccountsResponseDto>(respuesta);
+                    var obj = JsonConvert.DeserializeObject<Clases.BankColombia.BankCoTransferBetweenAccountsResponseDto>(respuesta);
                     return obj;
                 }
                 else
                 {
                     respuesta = await response.Content.ReadAsStringAsync();
-                    var obj = JsonConvert.DeserializeObject<BankCoTransferBetweenAccountsResponseDto>(respuesta);
+                    var obj = JsonConvert.DeserializeObject<Clases.BankColombia.BankCoTransferBetweenAccountsResponseDto>(respuesta);
                 }
             }
 
