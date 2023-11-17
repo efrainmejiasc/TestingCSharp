@@ -1,5 +1,7 @@
 ﻿using com.sun.security.ntlm;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using sun.security.jca;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -146,7 +148,7 @@ namespace UtilidadesDeSoftware
         }
 
 
-        public async Task<Clases.BankColombia.BankCoTransferBetweenAccountsResponseDto> TransferBetweenAccounts()
+        public async Task<Clases.BankColombia.BankCoTransfersBetweenAccountsResponseDto> TransferBetweenAccounts()
         {
             string respuesta = string.Empty;
             var objauth = await GetTokenAccess();
@@ -160,13 +162,13 @@ namespace UtilidadesDeSoftware
                 if (response.IsSuccessStatusCode)
                 {
                     respuesta = await response.Content.ReadAsStringAsync();
-                    var obj = JsonConvert.DeserializeObject<Clases.BankColombia.BankCoTransferBetweenAccountsResponseDto>(respuesta);
+                    var obj = JsonConvert.DeserializeObject<Clases.BankColombia.BankCoTransfersBetweenAccountsResponseDto>(respuesta);
                     return obj;
                 }
                 else
                 {
                     respuesta = await response.Content.ReadAsStringAsync();
-                    var obj = JsonConvert.DeserializeObject<Clases.BankColombia.BankCoTransferBetweenAccountsResponseDto>(respuesta);
+                    var obj = JsonConvert.DeserializeObject<Clases.BankColombia.BankCoTransfersBetweenAccountsResponseDto>(respuesta);
                 }
             }
 
@@ -270,6 +272,46 @@ namespace UtilidadesDeSoftware
             return "";
         }
 
+
+
+        public async Task<string> SendApiRequestAsync()
+        {
+            string respuesta = string.Empty;
+            var objauth = await GetTokenAccess();
+            var content = JsonConvert.SerializeObject(SetNuevos.SetAccountsTransfersVoidRequest());
+         
+            using (var client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", objauth.Access_Token);
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Add("Accept", "application/vnd.bancolombia.v4+json");
+                client.DefaultRequestHeaders.Add("messageId", "1511a409-ecaa-4d96-baee-eca3380b2ee0");
+                client.DefaultRequestHeaders.Add("json-web-token", "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJNYWFzUGF5Iiwic3VtIjoiMzFlNjU0ZWJjZGUzMmI4NmNkNTVlNDYxOTQyYzQ4MDIiLCJhdWQiOiJBUElHYXRld2F5X0RNWiIsImV4cCI6MTY5OTAzNjI4OCwiaWF0IjoxNjk5MDAwMjg4LCJub25jZSI6ImMyMWJjYTBjLTEyOGYtNDU2Ny1hYjRjLTY2ZDUzOTc4NTQzYSJ9.OWUm0fdT-VUFMfO1p8i1V9Vtnu13HYbU4Fy6aZ1UGIB6kM4n14tEc1yqBtNs9-jvgEQSDMfRMJmagTC2diwiHILuA7BOPC4hpvJ6umOVQ1ACN7XLkd__KqnC6IzB_kQbLfu3Soqr7z8xf1LAviqo0nKM8hC3G4J8MjMZdbifkuyvJHUs6MLlehuoylWV-7X-HU5tfTMq9O-vkvqbz6IMB9sdldAl2B9XnixOvcVXAhiWMB8J8cm3zX1trOo7nfbIJVP87fCM0KrWmDcPIJRar25kqh-zrzoo8JQBQ4v6hK_Juox1sAGCm5D0PCXplIqXm5yDSOX7VJQzBL6JrAzEng");
+                client.DefaultRequestHeaders.Add("X-Client-Certificate", "-----BEGIN CERTIFICATE-----MIIEOTCCAyGgAwIBAgIUCBh2Sn22brKB9dv30vk2lCNnzH4wDQYJKoZIhvcNAQELBQAwgasxCzAJBgNVBAYTAkNPMRIwEAYDVQQIDAlBTlRJT1FVSUExETAPBgNVBAcMCE1FREVMTElOMRAwDgYDVQQKDAdNYWFzcGF5MRQwEgYDVQQLDAtCQU5DT0xPTUJJQTElMCMGA1UEAwwcTWFhc3BheS5hcHBzLmFtYmllbnRlc2JjLmNvbTEmMCQGCSqGSIb3DQEJARYXZWZyYWlubWVqaWFzY0BnbWFpbC5jb20wHhcNMjMxMDI2MTY0MjA4WhcNMjQxMDI1MTY0MjA4WjCBqzELMAkGA1UEBhMCQ08xEjAQBgNVBAgMCUFOVElPUVVJQTERMA8GA1UEBwwITUVERUxMSU4xEDAOBgNVBAoMB01hYXNwYXkxFDASBgNVBAsMC0JBTkNPTE9NQklBMSUwIwYDVQQDDBxNYWFzcGF5LmFwcHMuYW1iaWVudGVzYmMuY29tMSYwJAYJKoZIhvcNAQkBFhdlZnJhaW5tZWppYXNjQGdtYWlsLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALz2kr2ibUdJBxhmeLtkcriIXNCwWix8fXOh1m+ia20DzCz+G6i4Blo5Q3x+bItLFT05q//PCJ8xLWjWGi7ZefFqjKo+i0TW+7JyrCa9xxR+Nillym2bd/6RoHpeji4dzLM856sTh8L4XrJC3xUU98INnIvNcELJuyDbDT7LfTFe0l7fno7bl5VCA2PSCGY9lgh7PJygot2j6GUuv+KOOUIpyDChKMppF/KocYvRo0L3ECnZeGp2QUW/U6Gp2FfGpa2jZARNMyaZR3EMexCyEOrevHFQPujoV90brvj75ZWML4ktJT+fEPZMNKch3QcEf6UDHVMhiQbaNZluImQ72wcCAwEAAaNTMFEwHQYDVR0OBBYEFOidZbnYOrBi+l/0XV0FAHnWvYp5MB8GA1UdIwQYMBaAFOidZbnYOrBi+l/0XV0FAHnWvYp5MA8GA1UdEwEB/wQFMAMBAf8wDQYJKoZIhvcNAQELBQADggEBACV8xrd3x6f/jE/HQj89qKIAcG2CO8aWSbdJvkDwT/wLablXWHC7k8p1FonFgEtpwRIO9keiOBqky3zC5S0BloHshIPM/It35llQvtDI1EmlyZwb2+1lll/lESHRtIw+77LuL2idk8G9uILA3/AQ5Z+AfUb2qZ3ThsmhfOfyx5S4l80MGSVoebh7xIfKckDzhTHEqP/XzZS2MjVPd6Gz8zQHJd9XNNBYA7m/DN2k/heGDu0LlVTpEZFEsvMWBAZrz9KvRN/wcF7ttjR6EAFu0DHOS9iE1h2BvZi50SH9/keZWPSZMoVuxaAp8zScGIkZJm/7ZeAk8VanleCjFk+3YGQ=-----END CERTIFICATE-----");
+                client.DefaultRequestHeaders.Add("IP", "92.219.31.113");
+                client.DefaultRequestHeaders.Add("deviceId", "1511a409-ecaa-4d96-baee-eca3380b2ee0");
+                client.DefaultRequestHeaders.Add("strongAuthentication", "true");
+                client.DefaultRequestHeaders.Add("Client-Id", "31e654ebcde32b86cd55e461942c4802");
+
+
+                var url= "https://gw-sandbox-qa.apps.ambientesbc.com/public-partner/sb/v1/operations/cross-product/payments/payment-execution/bancolombiapay-wallet-payments/wallet-payment/accounts/transfers-void";
+                HttpResponseMessage response = await client.PostAsync(url, new StringContent(content, Encoding.UTF8, "application/vnd.bancolombia.v4+json"));
+                if (response.IsSuccessStatusCode)
+                {
+                    respuesta = await response.Content.ReadAsStringAsync();
+                    return respuesta;
+                }
+                else
+                {
+                    respuesta = await response.Content.ReadAsStringAsync();
+                    return respuesta;
+                }
+            }
+        }
+
+
+
+
         private void button1_Click(object sender, EventArgs e)
         {
             // _ = GetTermsAndConditions();
@@ -277,7 +319,17 @@ namespace UtilidadesDeSoftware
             // _ = BankCoCIPrepareTransaction();
             // _ = BankCoCIRetrieveStatus();
 
-            _ = TransferBetweenAccounts();
+            //  _ = TransferBetweenAccounts();
+
+            _ = SendApiRequestAsync();
+
+            //var content = JsonConvert.SerializeObject(SetNuevos.SetAccountsTransfersVoidRequest());
+            //var content2 = JsonConvert.SerializeObject(SetNuevos.SetAccountsTransfersVoidResponse());
+
+            //var content3 = JsonConvert.SerializeObject(SetNuevos.SetTransferBetweenAccountsRequest());
+            //var content4 = JsonConvert.SerializeObject(SetNuevos.SetTransferBetweenAccountsResponse());
+
+            //var espera = string.Empty;
         }
     }
 }

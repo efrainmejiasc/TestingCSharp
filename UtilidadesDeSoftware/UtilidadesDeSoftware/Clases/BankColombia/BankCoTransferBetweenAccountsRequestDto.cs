@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UtilidadesDeSoftware.Clases.BankColombia.Helper
+namespace UtilidadesDeSoftware.Clases.BankColombia
 {
     public class BankCoTransferBetweenAccountsResponseDto
     {

@@ -8,21 +8,63 @@ namespace UtilidadesDeSoftware.Clases.BankColombia
 {
     public class SetNuevos
     {
-        public static BankCoTransferBetweenAccountsResponseDto SetTransferBetweenAccountsResponse()
+        public static BankCoTransferBetweenAccountsResponseDto SetTransferBetweenAccountsRequest()
         {
-            var response = new BankCoTransferBetweenAccountsResponseDto
+            var requestDto = new BankCoTransferBetweenAccountsResponseDto
             {
-                meta = new MetaTransferBetweenAccountsResponse
+                data = new DataTransferBetweenAccountsResponse
+                {
+                    customer = new CustomerTransferBetweenAccountsResponse
+                    {
+                        identification = new IdentificationTransferBetweenAccountsResponse
+                        {
+                            relationshipId = "F1E4F933826EE5FF33"
+                        }
+                    },
+                    transaction = new TransactionTransferBetweenAccountsResponse
+                    {
+                        user = "sve",
+                        trackingId = "TRQuwkohH0e2",
+                        key = "Crédito",
+                        amount = "50000",
+                        reference1 = "1234567890",
+                        transactionDate = "2021-09-08T10:42:13"
+                    },
+                    thirdpartyDestinationAccount = new ThirdpartyDestinationAccountTransferBetweenAccountsResponse
+                    {
+                        account = new AccountTransferBetweenAccountsResponse
+                        {
+                            type = "CUENTA_DE_AHORRO",
+                            number = "51478643212"
+                        },
+                        identification = new IdentificationAccountTransferBetweenAccountsResponse
+                        {
+                            type = "NIT",
+                            number = "900589687"
+                        }
+                    }
+
+                }
+            };
+
+            return requestDto;
+        }
+
+        public static BankCoTransfersBetweenAccountsResponseDto SetTransferBetweenAccountsResponse()
+        {
+            var response = new BankCoTransfersBetweenAccountsResponseDto
+            {
+                meta = new MetaTransfersBetweenAccountsResponse
                 {
                     _messageId = Guid.NewGuid().ToString(),
                     _requestDateTime = DateTime.UtcNow,
                     _applicationId = Guid.NewGuid().ToString()
                 },
-                data = new DataTransferBetweenAccountsResponse
+                data = new DataTransfersBetweenAccountsResponse
                 {
-                    thirdpartyTransactionDetail = new ThirdpartyTransactionDetailTransferBetweenAccountsResponse
+                    thirdpartyTransactionDetail = new ThirdpartyTransactionDetailTransfersBetweenAccountsResponse
                     {
-                        transaction = new TransactionTransferBetweenAccountsResponse
+                        transaction = new TransactionTransfersBetweenAccountsResponse
                         {
                             transactionDate = DateTime.Now,
                             amount = 1000
@@ -35,7 +77,7 @@ namespace UtilidadesDeSoftware.Clases.BankColombia
         }
 
 
-        public static BanCoAccountsTransfersVoiResponseDto SetAccountsTransfersVoiResponse()
+        public static BanCoAccountsTransfersVoiResponseDto SetAccountsTransfersVoidResponse()
         {
             var response = new BanCoAccountsTransfersVoiResponseDto
             {
@@ -55,7 +97,7 @@ namespace UtilidadesDeSoftware.Clases.BankColombia
         }
 
 
-        public static BankCoAccountsTransfersVoidRequestDto SetAccountsTransfersVoidReques()
+        public static BankCoAccountsTransfersVoidRequestDto SetAccountsTransfersVoidRequest()
         {
             var request = new BankCoAccountsTransfersVoidRequestDto
             {
@@ -74,7 +116,7 @@ namespace UtilidadesDeSoftware.Clases.BankColombia
                     transaction = new TransactionAccountsTransfersVoidReques
                     {
                         originalTrackingId = "TRQuwkohH0e2", // Ejemplo de valor para originalTrackingId
-                        transactionDate = DateTime.UtcNow // Ejemplo de valor para transactionDate
+                        transactionDate = "2023-11-02T14:37:02" // Ejemplo de valor para transactionDate
                     }
                 }
             };

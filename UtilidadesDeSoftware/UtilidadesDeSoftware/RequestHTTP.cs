@@ -187,7 +187,8 @@ namespace UtilidadesDeSoftware
                 {
                     // Configurar los encabezados requeridos
                     client.DefaultRequestHeaders.Accept.Clear();
-                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/vnd.bancolombia.v4+json"));
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    client.DefaultRequestHeaders.Add("accept", "application/vnd.bancolombia.v4+json");
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", objauth.Access_Token);
                     client.DefaultRequestHeaders.Add("messageId", "1511a409-ecaa-4d96-baee-eca3380b2ee0");
                     client.DefaultRequestHeaders.Add("accept", "application/vnd.bancolombia.v4+json");

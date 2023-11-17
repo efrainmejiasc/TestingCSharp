@@ -25,7 +25,7 @@ namespace UtilidadesDeSoftware.Clases.BankColombia
     public class TransactionAccountsTransfersVoidReques
     {
         public string originalTrackingId { get; set; }
-        public DateTime transactionDate { get; set; }
+        public string transactionDate { get; set; }
     }
 
     public class DataAccountsTransfersVoidReques
