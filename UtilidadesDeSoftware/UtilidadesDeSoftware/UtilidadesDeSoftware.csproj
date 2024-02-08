@@ -183,6 +183,12 @@
     <Compile Include="RequestHTTP.Designer.cs">
       <DependentUpon>RequestHTTP.cs</DependentUpon>
     </Compile>
+    <Compile Include="RequestHTTP_APITC.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RequestHTTP_APITC.Designer.cs">
+      <DependentUpon>RequestHTTP_APITC.cs</DependentUpon>
+    </Compile>
     <Compile Include="TestBooleano.cs">
       <SubType>Form</SubType>
     </Compile>
