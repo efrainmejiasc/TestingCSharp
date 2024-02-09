@@ -44,5 +44,18 @@ namespace UtilidadesDeSoftware
             Random _random = new Random(DateTime.UtcNow.Millisecond);
             var unixTimestamp = _random.NextDouble().ToString().Replace(",", "").Replace(".", "").Remove(0, 1).Substring(0, 6);
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            var a1 = 1000;
+            var a2 = 300;
+            textBox4.Text = (a1 + a2).ToString() +".00";
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            var cadena = "1234567890ABCDEF";
+            textBox5.Text = cadena.Substring(cadena.Length - 12);
+        }
     }
 }

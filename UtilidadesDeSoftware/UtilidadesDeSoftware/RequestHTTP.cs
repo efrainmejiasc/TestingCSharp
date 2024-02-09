@@ -95,7 +95,7 @@ namespace UtilidadesDeSoftware
         {
             _ = GetTokenAccess();
             ///_ = GetTermsAndConditions();
-            _ = AcceptTermsandConditionsAsync();
+            //_ = AcceptTermsandConditionsAsync();
             //_= ValidateCodeAsync();
             //_= TerminosAsync();
 
@@ -126,8 +126,8 @@ namespace UtilidadesDeSoftware
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/x-www-form-urlencoded"));
                 Uri url = new Uri("https://gw-sandbox-qa.apps.ambientesbc.com/public-partner/sb/security/oauth-provider/oauth2/token", UriKind.Absolute);
                 List<KeyValuePair<string, string>> formData = new List<KeyValuePair<string, string>>();
-                formData.Add(new KeyValuePair<string, string>("grant_type", "client_credentials"));
-                //formData.Add(new KeyValuePair<string, string>("scope", "Terms-register:write:user TermsConditions:read:user SecurityCode:read:app BancolombiaPay-wallet:write:user Customer-token:write:user Customer-viability:read:app Product-balance:read:user"));
+                //formData.Add(new KeyValuePair<string, string>("grant_type", "client_credentials"));
+                formData.Add(new KeyValuePair<string, string>("scope", "Terms-register:write:user TermsConditions:read:user SecurityCode:read:app BancolombiaPay-wallet:write:user Customer-token:write:user Customer-viability:read:app Product-balance:read:user"));
                 //formData.Add(new KeyValuePair<string, string>("scope", "TermsConditions-register:write:user TermsConditions:read:user"));
                 //formData.Add(new KeyValuePair<string, string>("scope", "Products-payment:read:user BancolombiaPay-wallet:write:user"));
                 //formData.Add(new KeyValuePair<string, string>("scope", "Product-balance:read:user"));
@@ -138,6 +138,8 @@ namespace UtilidadesDeSoftware
                     respuesta = await response.Content.ReadAsStringAsync();
                     return JsonConvert.DeserializeObject<BankColombiaTokenResponse>(respuesta);
                 }
+                else
+                    respuesta = await response.Content.ReadAsStringAsync();
             }
 
             return null;
