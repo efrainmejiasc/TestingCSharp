@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using com.sun.org.apache.xpath.@internal.functions;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -162,14 +163,20 @@ namespace UtilidadesDeSoftware
 
         private void button1_Click(object sender, EventArgs e)
         {
+            CreatePerson();
+        }
+
+        private async Task<bool> CreatePerson()
+        {
             var model = SetCreatePerson();
-            var result = HttpRequestApiTc("CrearPersona", model).Result;
+            var result = await HttpRequestApiTc("CrearPersona", model);
             richTextBox1.Text = result;
+            return false;
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            _ = Test123().Result;
+            _ = Test1234().Result;
             var model = SetCreateTransaction();
             var result = HttpRequestApiTc("CrearTransaccion", model).Result;
             richTextBox1.Text = result;
