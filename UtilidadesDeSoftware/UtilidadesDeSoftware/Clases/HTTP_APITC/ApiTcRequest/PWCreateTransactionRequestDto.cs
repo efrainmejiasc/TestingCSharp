@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace UtilidadesDeSoftware.Clases.HTTP_APITC.ApiTcRequest
 {
-    public class PWCreateTransaction
+    public class PWCreateTransactionRequestDto
     {
         public int form_id { get; set; }
         public int terminal_id { get; set; }
