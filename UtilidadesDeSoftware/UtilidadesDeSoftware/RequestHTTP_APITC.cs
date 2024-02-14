@@ -67,9 +67,9 @@ namespace UtilidadesDeSoftware
         private HttpClient SetCommonHeaders(HttpClient client)
         {
             client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", "MjVkMTBiNGM5OTJiNzcxMjhkMDZlMWJkYWNiMWM0NDNjYTQ1OGNjYzM2NDA2NzlhMDRkYTkyYTkwNjE3YTY0ZGUwOTIxNjRjYzFiYWExYmFlMDQzOGIxMzA5YmE5ZmI5MmU3NjBmZmJjYmU1NjI0OTU1OTZlYWY4Zjg4MjBhNDY=");
+            client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", APIKEY);
             client.DefaultRequestHeaders.TryAddWithoutValidation("Content-Type", "application/json");
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
             return client;
         }
@@ -112,6 +112,7 @@ namespace UtilidadesDeSoftware
 
             return createPerson;
         }
+
         public static PWCreateTransactionRequestDto SetCreateTransaction()
         {
             var createTransaction = new PWCreateTransactionRequestDto()
@@ -129,8 +130,81 @@ namespace UtilidadesDeSoftware
             return createTransaction;
         }
 
+        public static PWTokenizeCustomerCardRequestDto SetTokenizarTarjetaCliente()
+        {
+            var tokenizarTarjeta = new PWTokenizeCustomerCardRequestDto()
+            {
+                idtransaction = 7279,
+                idterminal = 294,
+                card_holder = "Efrain Mejias",
+                card_pan = "1423456789",
+                card_expiry_year = "2029",
+                card_expiry_month = "12",
+                card_cvv = "789",
+                autorizacionDatos = true
+            };
+
+            return tokenizarTarjeta;
+        }
+
+        public static PWCreateOrderTcClientRequestDto SetPWCreateOrderTcClient()
+        {
+            var createOrderTc = new PWCreateOrderTcClientRequestDto()
+            {
+                url_ok = "www.urldestino.com",
+                url_ko = "www.urldestinocasofallido.com",
+                description = "prueba crear orden del cliente",
+                reference = "7280",
+                dynamic_descriptor = "Descripcion de prueba",
+                form_id = 240,
+                terminal_id = 294,
+                extra_data = new ExtraDataCreateOrderTcClientRequest()
+                {
+                    payment = new PaymentCreateOrderTcClientRequest
+                    {
+                        installments = 1
+                    }
+                }
+            };
+
+            return createOrderTc;
+        }
 
 
+        public static PWExecuteOrderTcClientRequestDto SetPWExecuteOrderTcClient()
+        {
+            var executeOrderTc = new PWExecuteOrderTcClientRequestDto()
+            {
+                order_uuid = "CC51AE39-E2A1-4F2A-8CBF-91DE2140916C",
+                card_uuid = "d1277a88fc140b268e049938d24550a297020e432930c1f1278fdd82cf9e1",
+                customer_ip = GenerarDireccionIP(),
+                idtransaction = 7279,
+                successResponse = true
+            };
+
+            return executeOrderTc;
+        }
+
+
+        public static PWRetrievePersonByDocumentRequestDto SetPWRetrievePersonByDocument()
+        {
+            var nroDocument = new PWRetrievePersonByDocumentRequestDto()
+            {
+               nroDocumento = "2233445566778899"
+            };
+
+            return nroDocument;
+        }
+
+        public static PWReverseTransactionRequestDto SetPWReverseTransaction()
+        {
+            var reverseTransaction = new PWReverseTransactionRequestDto()
+            {
+                idTransaction = "7270"
+            };
+
+            return reverseTransaction;
+        }
 
 
         #endregion
@@ -160,5 +234,71 @@ namespace UtilidadesDeSoftware
             richTextBox1.Text = JsonConvert.SerializeObject(result);
             return false;
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            _= TokenizarTarjeta();
+        }
+
+        private async Task<bool> TokenizarTarjeta()
+        {
+            var model = SetTokenizarTarjetaCliente();
+            var result = await HttpRequestApiTc<PWTokenizeCustomerCardRequestDto, PWTokenizeCustomerCardResponseDto>("TokenizarTarjetaCliente", model);
+            richTextBox1.Text = JsonConvert.SerializeObject(result);
+            return false;
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+           _= CrearOrdenTc();
+        }
+
+        private async Task<bool> CrearOrdenTc()
+        {
+            var model = SetPWCreateOrderTcClient();
+            var result = await HttpRequestApiTc<PWCreateOrderTcClientRequestDto, PWCreateOrderTcClientResponseDto>("CrearOrdenTcCliente", model);
+            richTextBox1.Text = JsonConvert.SerializeObject(result);
+            return false;
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            _ = EjecutarOrdenTc();
+        }
+
+        private async Task<bool> EjecutarOrdenTc()
+        {
+            var model = SetPWExecuteOrderTcClient();
+            var result = await HttpRequestApiTc<PWExecuteOrderTcClientRequestDto, PWExecuteOrderTcClientResponseDto>("EjecutarOrdenTcCliente", model);
+            richTextBox1.Text = JsonConvert.SerializeObject(result);
+            return false;
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            _ = RetrievePersonByDocument();
+        }
+
+        private async Task<bool> RetrievePersonByDocument()
+        {
+            var model = SetPWRetrievePersonByDocument();
+            var result = await HttpRequestApiTc<PWRetrievePersonByDocumentRequestDto, PWRetrievePersonByDocumentResponseDto>("ObtenerPersonaPorDocumento", model);
+            richTextBox1.Text = JsonConvert.SerializeObject(result);
+            return false;
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            _ = ReverseTransaction();
+        }
+
+        private async Task<bool> ReverseTransaction()
+        {
+            var model = SetPWReverseTransaction();
+            var result = await HttpRequestApiTc<PWReverseTransactionRequestDto, PWReverseTransactionResponseDto>("ReversarTransaccion", model);
+            richTextBox1.Text = JsonConvert.SerializeObject(result);
+            return false;
+        }
+
     }
 }

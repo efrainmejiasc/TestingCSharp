@@ -162,10 +162,20 @@
     <Compile Include="Clases\Enumeradores\EnumSex.cs" />
     <Compile Include="Clases\HTTPClass\AuthRenaper.cs" />
     <Compile Include="Clases\HTTPClass\DatosPorDniSexo.cs" />
+    <Compile Include="Clases\HTTP_APITC\ApiTcRequest\PWCreateOrderTcClientRequestDto.cs" />
     <Compile Include="Clases\HTTP_APITC\ApiTcRequest\PWCreatePersonRequestDto.cs" />
     <Compile Include="Clases\HTTP_APITC\ApiTcRequest\PWCreateTransactionRequestDto.cs" />
+    <Compile Include="Clases\HTTP_APITC\ApiTcRequest\PWExecuteOrderTcClientRequestDto.cs" />
+    <Compile Include="Clases\HTTP_APITC\ApiTcRequest\PWReverseTransactionRequestDto.cs" />
+    <Compile Include="Clases\HTTP_APITC\ApiTcRequest\PWTokenizeCustomerCardRequestDto.cs" />
+    <Compile Include="Clases\HTTP_APITC\ApiTcRequest\PWRetrievePersonByDocumentRequestDto.cs" />
+    <Compile Include="Clases\HTTP_APITC\ApiTcResponse\PWCreateOrderTcClientResponseDto.cs" />
     <Compile Include="Clases\HTTP_APITC\ApiTcResponse\PWCreatePersonResponseDto.cs" />
     <Compile Include="Clases\HTTP_APITC\ApiTcResponse\PWCreateTransactionResponseDto.cs" />
+    <Compile Include="Clases\HTTP_APITC\ApiTcResponse\PWExecuteOrderTcClientResponseDto.cs" />
+    <Compile Include="Clases\HTTP_APITC\ApiTcResponse\PWReverseTransactionResponseDto.cs" />
+    <Compile Include="Clases\HTTP_APITC\ApiTcResponse\PWTokenizeCustomerCardResponseDto.cs" />
+    <Compile Include="Clases\HTTP_APITC\ApiTcResponse\PWRetrievePersonByDocumentResponseDto.cs" />
     <Compile Include="Clases\PostgresSql\MthodsPostgresSql.cs" />
     <Compile Include="Enumerador.cs">
       <SubType>Form</SubType>
