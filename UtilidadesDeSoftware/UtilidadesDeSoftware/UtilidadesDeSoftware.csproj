@@ -173,9 +173,12 @@
     <Compile Include="Clases\HTTP_APITC\ApiTcResponse\PWCreatePersonResponseDto.cs" />
     <Compile Include="Clases\HTTP_APITC\ApiTcResponse\PWCreateTransactionResponseDto.cs" />
     <Compile Include="Clases\HTTP_APITC\ApiTcResponse\PWExecuteOrderTcClientResponseDto.cs" />
+    <Compile Include="Clases\HTTP_APITC\ApiTcResponse\PWRetrieveAllTransactionStatusesResponseDto.cs" />
+    <Compile Include="Clases\HTTP_APITC\ApiTcResponse\PWRetrieveTransactionResponseDto.cs" />
     <Compile Include="Clases\HTTP_APITC\ApiTcResponse\PWReverseTransactionResponseDto.cs" />
     <Compile Include="Clases\HTTP_APITC\ApiTcResponse\PWTokenizeCustomerCardResponseDto.cs" />
     <Compile Include="Clases\HTTP_APITC\ApiTcResponse\PWRetrievePersonByDocumentResponseDto.cs" />
+    <Compile Include="Clases\HTTP_APITC\Encrypted.cs" />
     <Compile Include="Clases\PostgresSql\MthodsPostgresSql.cs" />
     <Compile Include="Enumerador.cs">
       <SubType>Form</SubType>

@@ -28,7 +28,7 @@ namespace UtilidadesDeSoftware
             InitializeComponent();
         }
 
-        public async Task<TOutput> HttpRequestApiTc<TInput, TOutput>(string url, TInput model)
+        public async Task<TOutput> PostHttpRequestApiTc<TInput, TOutput>(string url, TInput model)
         {
             var responseModel = default(TOutput);
             var respuesta = string.Empty;
@@ -41,6 +41,39 @@ namespace UtilidadesDeSoftware
                     url = URLBASE + url;
                     Uri urlRequest = new Uri(url, UriKind.Absolute);
                     HttpResponseMessage response = await client.PostAsync(url, new StringContent(content, Encoding.UTF8, "application/json"));
+                    if (response.IsSuccessStatusCode)
+                    {
+                        respuesta = await response.Content.ReadAsStringAsync();
+                        responseModel = JsonConvert.DeserializeObject<TOutput>(respuesta);
+                    }
+                    else
+                    {
+                        respuesta = await response.Content.ReadAsStringAsync();
+                        responseModel = JsonConvert.DeserializeObject<TOutput>(respuesta);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                var error = ex.ToString();
+            }
+
+            return responseModel;
+        }
+
+
+        public async Task<TOutput> GetPostHttpRequestApiTc<TOutput>(string url)
+        {
+            var responseModel = default(TOutput);
+            var respuesta = string.Empty;
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    SetCommonHeaders(client);
+                    url = URLBASE + url;
+                    Uri urlRequest = new Uri(url, UriKind.Absolute);
+                    HttpResponseMessage response = await client.GetAsync(urlRequest);
                     if (response.IsSuccessStatusCode)
                     {
                         respuesta = await response.Content.ReadAsStringAsync();
@@ -102,8 +135,8 @@ namespace UtilidadesDeSoftware
                 lastname = "Doel",
                 ididentificationtype = "4",
                 identification = "499887766554433221",
-                email = "john2@example.com",
-                phone = "1134567890",
+                email = "john25675@example.com",
+                phone = "113456789022",
                 state = "",
                 city = "",
                 address = "",
@@ -162,7 +195,8 @@ namespace UtilidadesDeSoftware
                 {
                     payment = new PaymentCreateOrderTcClientRequest
                     {
-                        installments = 1
+                        installments = 1 // Numero de cuotas de pago
+
                     }
                 }
             };
@@ -217,7 +251,7 @@ namespace UtilidadesDeSoftware
         private async Task<bool> CreatePerson()
         {
             var model = SetCreatePerson();
-            var result = await HttpRequestApiTc<PWCreatePersonRequestDto, PWCreatePersonResponseDto>("CrearPersona", model);
+            var result = await PostHttpRequestApiTc<PWCreatePersonRequestDto, PWCreatePersonResponseDto>("CrearPersona", model);
             richTextBox1.Text = JsonConvert.SerializeObject(result); 
             return false;
         }
@@ -230,7 +264,7 @@ namespace UtilidadesDeSoftware
         private async Task<bool> CreateTransaction()
         {
             var model = SetCreateTransaction();
-            var result = await HttpRequestApiTc<PWCreateTransactionRequestDto, PWCreateTransactionResponseDto>("CrearTransaccion", model);
+            var result = await PostHttpRequestApiTc<PWCreateTransactionRequestDto, PWCreateTransactionResponseDto>("CrearTransaccion", model);
             richTextBox1.Text = JsonConvert.SerializeObject(result);
             return false;
         }
@@ -243,7 +277,7 @@ namespace UtilidadesDeSoftware
         private async Task<bool> TokenizarTarjeta()
         {
             var model = SetTokenizarTarjetaCliente();
-            var result = await HttpRequestApiTc<PWTokenizeCustomerCardRequestDto, PWTokenizeCustomerCardResponseDto>("TokenizarTarjetaCliente", model);
+            var result = await PostHttpRequestApiTc<PWTokenizeCustomerCardRequestDto, PWTokenizeCustomerCardResponseDto>("TokenizarTarjetaCliente", model);
             richTextBox1.Text = JsonConvert.SerializeObject(result);
             return false;
         }
@@ -256,7 +290,7 @@ namespace UtilidadesDeSoftware
         private async Task<bool> CrearOrdenTc()
         {
             var model = SetPWCreateOrderTcClient();
-            var result = await HttpRequestApiTc<PWCreateOrderTcClientRequestDto, PWCreateOrderTcClientResponseDto>("CrearOrdenTcCliente", model);
+            var result = await PostHttpRequestApiTc<PWCreateOrderTcClientRequestDto, PWCreateOrderTcClientResponseDto>("CrearOrdenTcCliente", model);
             richTextBox1.Text = JsonConvert.SerializeObject(result);
             return false;
         }
@@ -269,7 +303,7 @@ namespace UtilidadesDeSoftware
         private async Task<bool> EjecutarOrdenTc()
         {
             var model = SetPWExecuteOrderTcClient();
-            var result = await HttpRequestApiTc<PWExecuteOrderTcClientRequestDto, PWExecuteOrderTcClientResponseDto>("EjecutarOrdenTcCliente", model);
+            var result = await PostHttpRequestApiTc<PWExecuteOrderTcClientRequestDto, PWExecuteOrderTcClientResponseDto>("EjecutarOrdenTcCliente", model);
             richTextBox1.Text = JsonConvert.SerializeObject(result);
             return false;
         }
@@ -282,7 +316,7 @@ namespace UtilidadesDeSoftware
         private async Task<bool> RetrievePersonByDocument()
         {
             var model = SetPWRetrievePersonByDocument();
-            var result = await HttpRequestApiTc<PWRetrievePersonByDocumentRequestDto, PWRetrievePersonByDocumentResponseDto>("ObtenerPersonaPorDocumento", model);
+            var result = await PostHttpRequestApiTc<PWRetrievePersonByDocumentRequestDto, PWRetrievePersonByDocumentResponseDto>("ObtenerPersonaPorDocumento", model);
             richTextBox1.Text = JsonConvert.SerializeObject(result);
             return false;
         }
@@ -295,10 +329,57 @@ namespace UtilidadesDeSoftware
         private async Task<bool> ReverseTransaction()
         {
             var model = SetPWReverseTransaction();
-            var result = await HttpRequestApiTc<PWReverseTransactionRequestDto, PWReverseTransactionResponseDto>("ReversarTransaccion", model);
+            var result = await PostHttpRequestApiTc<PWReverseTransactionRequestDto, PWReverseTransactionResponseDto>("ReversarTransaccion", model);
             richTextBox1.Text = JsonConvert.SerializeObject(result);
             return false;
         }
 
+        private void button8_Click(object sender, EventArgs e)
+        {
+            _ = RetrieveTransaction();
+        }
+
+
+        private async Task<bool> RetrieveTransaction()
+        {
+            var result = await GetPostHttpRequestApiTc<PWRetrieveTransactionResponseDto>("ObtenerTransaccion?id=7279");
+            richTextBox1.Text = JsonConvert.SerializeObject(result);
+            return false;
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+           _  = RetrieveAllTransactionStatuses();
+        }
+
+        private async Task<bool> RetrieveAllTransactionStatuses()
+        {
+            var result = await GetPostHttpRequestApiTc<List<PWRetrieveAllTransactionStatusesResponseDto>>("GetAllTransactionStatuses");
+            richTextBox1.Text = JsonConvert.SerializeObject(result);
+            return false;
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            Random _random = new Random(DateTime.UtcNow.Millisecond + 100009);
+            var unixTimestamp = _random.NextDouble().ToString().Replace(",", "").Replace(".", "").Remove(0, 1).Substring(0, 4);
+            textBox1.Text = unixTimestamp;
+        }
+
+        private void button11_Click(object sender, EventArgs e)
+        {
+            var obj = SetTokenizarTarjetaCliente();
+            var objEncrypted= Encrypted.Encrypt<PWTokenizeCustomerCardRequestDto>(obj);
+            richTextBox1.Text = objEncrypted;
+        }
+
+        private void button12_Click(object sender, EventArgs e)
+        {
+            var obj = richTextBox1.Text;
+            var objDecrypted = Encrypted.Decrypt<PWTokenizeCustomerCardRequestDto>(obj);
+            var content = JsonConvert.SerializeObject(objDecrypted);
+            richTextBox1.Text = content;
+           
+        }
     }
 }
