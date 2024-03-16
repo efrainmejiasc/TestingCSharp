@@ -43,6 +43,8 @@ namespace UtilidadesDeSoftware
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.button11 = new System.Windows.Forms.Button();
             this.button12 = new System.Windows.Forms.Button();
+            this.button13 = new System.Windows.Forms.Button();
+            this.button15 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // richTextBox1
@@ -65,7 +67,7 @@ namespace UtilidadesDeSoftware
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(137, 352);
+            this.button2.Location = new System.Drawing.Point(12, 426);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(110, 23);
             this.button2.TabIndex = 3;
@@ -75,7 +77,7 @@ namespace UtilidadesDeSoftware
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(262, 352);
+            this.button3.Location = new System.Drawing.Point(189, 352);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(110, 23);
             this.button3.TabIndex = 4;
@@ -85,7 +87,7 @@ namespace UtilidadesDeSoftware
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(387, 352);
+            this.button4.Location = new System.Drawing.Point(189, 381);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(110, 23);
             this.button4.TabIndex = 5;
@@ -95,7 +97,7 @@ namespace UtilidadesDeSoftware
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(512, 352);
+            this.button5.Location = new System.Drawing.Point(189, 410);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(110, 23);
             this.button5.TabIndex = 6;
@@ -105,7 +107,7 @@ namespace UtilidadesDeSoftware
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(643, 352);
+            this.button6.Location = new System.Drawing.Point(12, 381);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(110, 23);
             this.button6.TabIndex = 7;
@@ -115,7 +117,7 @@ namespace UtilidadesDeSoftware
             // 
             // button7
             // 
-            this.button7.Location = new System.Drawing.Point(770, 352);
+            this.button7.Location = new System.Drawing.Point(12, 513);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(130, 23);
             this.button7.TabIndex = 8;
@@ -125,7 +127,7 @@ namespace UtilidadesDeSoftware
             // 
             // button8
             // 
-            this.button8.Location = new System.Drawing.Point(12, 402);
+            this.button8.Location = new System.Drawing.Point(12, 455);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(130, 23);
             this.button8.TabIndex = 9;
@@ -135,7 +137,7 @@ namespace UtilidadesDeSoftware
             // 
             // button9
             // 
-            this.button9.Location = new System.Drawing.Point(158, 402);
+            this.button9.Location = new System.Drawing.Point(12, 484);
             this.button9.Name = "button9";
             this.button9.Size = new System.Drawing.Size(162, 23);
             this.button9.TabIndex = 10;
@@ -162,7 +164,7 @@ namespace UtilidadesDeSoftware
             // 
             // button11
             // 
-            this.button11.Location = new System.Drawing.Point(700, 459);
+            this.button11.Location = new System.Drawing.Point(770, 545);
             this.button11.Name = "button11";
             this.button11.Size = new System.Drawing.Size(130, 23);
             this.button11.TabIndex = 13;
@@ -172,7 +174,7 @@ namespace UtilidadesDeSoftware
             // 
             // button12
             // 
-            this.button12.Location = new System.Drawing.Point(700, 488);
+            this.button12.Location = new System.Drawing.Point(770, 574);
             this.button12.Name = "button12";
             this.button12.Size = new System.Drawing.Size(130, 23);
             this.button12.TabIndex = 14;
@@ -180,9 +182,31 @@ namespace UtilidadesDeSoftware
             this.button12.UseVisualStyleBackColor = true;
             this.button12.Click += new System.EventHandler(this.button12_Click);
             // 
+            // button13
+            // 
+            this.button13.Location = new System.Drawing.Point(189, 455);
+            this.button13.Name = "button13";
+            this.button13.Size = new System.Drawing.Size(162, 23);
+            this.button13.TabIndex = 15;
+            this.button13.Text = "Obtener Identificaciones";
+            this.button13.UseVisualStyleBackColor = true;
+            this.button13.Click += new System.EventHandler(this.button13_Click);
+            // 
+            // button15
+            // 
+            this.button15.Location = new System.Drawing.Point(770, 352);
+            this.button15.Name = "button15";
+            this.button15.Size = new System.Drawing.Size(130, 23);
+            this.button15.TabIndex = 16;
+            this.button15.Text = "ENCRIPTAR SHA256";
+            this.button15.UseVisualStyleBackColor = true;
+            this.button15.Click += new System.EventHandler(this.button15_Click);
+            // 
             // RequestHTTP_APITC
             // 
             this.ClientSize = new System.Drawing.Size(928, 638);
+            this.Controls.Add(this.button15);
+            this.Controls.Add(this.button13);
             this.Controls.Add(this.button12);
             this.Controls.Add(this.button11);
             this.Controls.Add(this.textBox1);
@@ -219,5 +243,7 @@ namespace UtilidadesDeSoftware
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button button11;
         private System.Windows.Forms.Button button12;
+        private System.Windows.Forms.Button button13;
+        private System.Windows.Forms.Button button15;
     }
 }

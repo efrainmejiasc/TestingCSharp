@@ -5,15 +5,31 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Runtime.Serialization;
+using System.Security.Cryptography.X509Certificates;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using UtilidadesDeSoftware.Clases.HTTP_APITC;
 using UtilidadesDeSoftware.Clases.HTTP_APITC.ApiTcRequest;
 using UtilidadesDeSoftware.Clases.HTTP_APITC.ApiTcResponse;
+using System.Runtime.Serialization.Json;
+using Org.BouncyCastle.Crypto;
+using java.security;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using java.sql;
+using Org.BouncyCastle.Crypto.Encodings;
+using Org.BouncyCastle.Crypto.Engines;
+using Org.BouncyCastle.OpenSsl;
+using Org.BouncyCastle.Security;
+
 
 namespace UtilidadesDeSoftware
 {
@@ -22,6 +38,17 @@ namespace UtilidadesDeSoftware
         byte[] APIKEYBYTE = Encoding.ASCII.GetBytes("25d10b4c992b77128d06e1bdacb1c443ca458ccc3640679a04da92a90617a64de092164cc1baa1bae0438b1309ba9fb92e760ffbcbe562495596eaf8f8820a46");
         string APIKEY = "MjVkMTBiNGM5OTJiNzcxMjhkMDZlMWJkYWNiMWM0NDNjYTQ1OGNjYzM2NDA2NzlhMDRkYTkyYTkwNjE3YTY0ZGUwOTIxNjRjYzFiYWExYmFlMDQzOGIxMzA5YmE5ZmI5MmU3NjBmZmJjYmU1NjI0OTU1OTZlYWY4Zjg4MjBhNDY=";
         string URLBASE = "https://serviceregisterpruebas.vepay.com.co/ClientAPI/";
+        //string URLBASE = "https://serviceregister.paymentsway.co/ClientAPI/";
+
+        string PUBLICKEY = @"-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA9llGF9C5OZBN1hqKXw8f
+z4kWCJjJqj0UG1sPKwxJyjjXVuwFB8z7kfQZlfSs//mKzyEoO1NNRc+WWROyNwf6
+49fVlcDvcuzyhXtdokajk8Nr7ogoyjWlkAeqmZl4Neurt9wgJMmFyNjkY2RGmhcy
+X8qq59oiOREav4WEUB/3Y+m5a/LAb8b6HNgI+7tNE6ZQvfadWvgPey7J/V0ZvLRn
+ORtm5bA/KWzzJr5jopIgb2xK8QuoyheyMzAUS6EWK4yIH7AzuhBI7UFkKLgvzoW+
+XBzcBwdtqinkPLLnsIIoKVokl9wLpR43Z/mAlzcSitQ4H2qVCZsrE7fnTOBOwlpO
+5QIDAQAB
+-----END PUBLIC KEY-----";
 
         public RequestHTTP_APITC()
         {
@@ -359,13 +386,74 @@ namespace UtilidadesDeSoftware
             return false;
         }
 
+
+        private void button13_Click(object sender, EventArgs e)
+        {
+            _ = RetrieveAllIdentificationType();
+        }
+
+        private async Task<bool> RetrieveAllIdentificationType()
+        {
+            //var result = await GetPostHttpRequestApiTc<List<PWRetrieveAllTransactionStatusesResponseDto>>("ObtenerTiposIdentificacion");
+            var result = await GetPostHttpRequestApiTc<List<PWRetrieveAllTransactionStatusesResponseDto>>("ObtenerMediosDePago");
+            richTextBox1.Text = JsonConvert.SerializeObject(result);
+            return false;
+        }
+
+        #region ENCRYPTED
+        private void button15_Click(object sender, EventArgs e)
+        {
+            var pwCreatePerson = SetCreatePerson();
+            var pwCreatePersonEncrypted = EncryptObject<PWCreatePersonRequestDto>(pwCreatePerson);
+            richTextBox1.Text = pwCreatePersonEncrypted;
+        }
+        public string ReadFileKeyPem()
+        {
+            var result = PUBLICKEY;
+            result = result
+                   .Replace("-----BEGIN PUBLIC KEY-----", "")
+                   .Replace("-----END PUBLIC KEY-----", "")
+                   .Replace("\r\n", "");
+
+            return result;
+
+        }
+
+
+        public string EncryptObject<T>(T obj)
+        {
+            var publicKey = ReadFileKeyPem();
+
+            var jsonData = JsonConvert.SerializeObject(obj);
+            byte[] publicKeyBytes = Convert.FromBase64String(publicKey);
+
+            using (var rsa = RSA.Create())
+            {
+                // Importar clave pública desde Base64
+                rsa.ImportFromPem (publicKey);
+
+                // Encriptar los datos utilizando RSA
+                byte[] encryptedData = rsa.Encrypt(Encoding.UTF8.GetBytes(data), RSAEncryptionPadding.OaepSHA256);
+
+                // Convertir datos encriptados a Base64
+                return Convert.ToBase64String(encryptedData);
+            }
+        }
+
+
+
+        #endregion
+
+
+
+
+
         private void button10_Click(object sender, EventArgs e)
         {
             Random _random = new Random(DateTime.UtcNow.Millisecond + 100009);
             var unixTimestamp = _random.NextDouble().ToString().Replace(",", "").Replace(".", "").Remove(0, 1).Substring(0, 4);
             textBox1.Text = unixTimestamp;
         }
-
         private void button11_Click(object sender, EventArgs e)
         {
             var obj = SetTokenizarTarjetaCliente();
@@ -381,5 +469,7 @@ namespace UtilidadesDeSoftware
             richTextBox1.Text = content;
            
         }
+
+      
     }
 }
