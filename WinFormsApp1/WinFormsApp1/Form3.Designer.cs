@@ -32,6 +32,7 @@
             button4 = new Button();
             button3 = new Button();
             richTextBox1 = new RichTextBox();
+            button1 = new Button();
             SuspendLayout();
             // 
             // button6
@@ -72,11 +73,22 @@
             richTextBox1.TabIndex = 10;
             richTextBox1.Text = "";
             // 
+            // button1
+            // 
+            button1.Location = new Point(566, 384);
+            button1.Name = "button1";
+            button1.Size = new Size(108, 23);
+            button1.TabIndex = 11;
+            button1.Text = "Crear RSA 2";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
             // Form3
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(button1);
             Controls.Add(richTextBox1);
             Controls.Add(button6);
             Controls.Add(button4);
@@ -93,5 +105,6 @@
         private Button button4;
         private Button button3;
         private RichTextBox richTextBox1;
+        private Button button1;
     }
 }

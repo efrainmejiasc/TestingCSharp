@@ -16,7 +16,7 @@ namespace WinFormsApp1
 {
     public partial class Form3 : Form
     {
-       
+
         public Form3()
         {
             InitializeComponent();
@@ -29,13 +29,13 @@ namespace WinFormsApp1
 
         string key64 = "qmiVmjhHfNR+XfHtiPPIbtNLFGqlY+5q++SiFbCX5HM=";
         string iv64 = "QXNtQcemueTc549EopMU4g==";
-        byte[] newIv ;
+        byte[] newIv;
         //GENERAR
         private void button4_Click(object sender, EventArgs e)
         {
             int keySize = 256; // Puedes elegir 128, 192 o 256 bits
             byte[] key = GenerateRandomKey(keySize);
-            byte[] iv = Convert.FromBase64String(iv64);  
+            byte[] iv = Convert.FromBase64String(iv64);
 
             string keyFileName = "key.txt";
             string keyFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, keyFileName);
@@ -65,7 +65,7 @@ namespace WinFormsApp1
 
             string textoOriginal = richTextBox1.Text.Trim();
 
-            string textoCifradoBase64 = Encrypt(textoOriginal, key, iv,out tag);
+            string textoCifradoBase64 = Encrypt(textoOriginal, key, iv, out tag);
             var tag64 = Convert.ToBase64String(tag);
             var iv64 = Convert.ToBase64String(iv);
 
@@ -107,7 +107,7 @@ namespace WinFormsApp1
         //    }
         //}
 
-        public  string Encrypt(string texto, byte[] key, byte[] iv, out byte[] tag)
+        public string Encrypt(string texto, byte[] key, byte[] iv, out byte[] tag)
         {
             using (Aes aesAlg = Aes.Create())
             {
@@ -127,7 +127,7 @@ namespace WinFormsApp1
                     byte[] encryptedBytes = msEncrypt.ToArray();
 
                     // Calcula el HMAC del texto cifrado
-                    using (HMACSHA256 hmac = new HMACSHA256(key)) 
+                    using (HMACSHA256 hmac = new HMACSHA256(key))
                     {
                         tag = hmac.ComputeHash(encryptedBytes);
                     }
@@ -264,6 +264,27 @@ namespace WinFormsApp1
             {
                 throw new InvalidOperationException("El archivo de clave y IV no tiene el formato esperado.");
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            int keySize = 256; // Puedes elegir 128, 192 o 256 bits
+            byte[] key = GenerateRandomKey(keySize);
+            byte[] iv = GenerateRandomIV();
+
+            var propertySecurity = new PropertysSecurity()
+            {
+                SimetricKey = Convert.ToBase64String(key),
+                ValidateTag = Convert.ToBase64String(iv)
+            };
+
+            var K = string.Empty;
+        }
+
+        public class PropertysSecurity
+        {
+            public string SimetricKey { get; set; }
+            public string ValidateTag { get; set; }
         }
     }
 }
