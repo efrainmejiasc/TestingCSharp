@@ -14,7 +14,7 @@ namespace WinFormsApp1
     public partial class Form4 : Form
     {
 
-        string publickey = "F75HLl1ODgfHGI44MAEWZFMqvfJjGs6wmqwhwmqewi8=";
+        string publickey = "";
         string vi = "";
         string tagi = "";
         public Form4()
@@ -47,7 +47,7 @@ namespace WinFormsApp1
 
                 cipher.Decrypt(nonce, ciphertext, tag, plaintext);
 
-                richTextBox1.Text = Convert.ToBase64String(plaintext);
+                richTextBox1.Text = System.Text.Encoding.UTF8.GetString(plaintext);
             }
         }
 

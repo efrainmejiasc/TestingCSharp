@@ -14,7 +14,7 @@ namespace WinFormsApp1
 {
     public partial class Form5 : Form
     {
-        string publickey = "F75HLl1ODgfHGI44MAEWZFMqvfJjGs6wmqwhwmqewi8=";
+        string publickey = "";
         string vi = "";
         string tagi = "";
         public Form5()
@@ -63,8 +63,6 @@ namespace WinFormsApp1
                 textBox1.Text = strKey;
                 textBox2.Text = Convert.ToBase64String(nonce);
                 textBox3.Text = Convert.ToBase64String(tag);
-
-
             }
         }
 
