@@ -45,6 +45,7 @@ namespace UtilidadesDeSoftware
             this.button12 = new System.Windows.Forms.Button();
             this.button13 = new System.Windows.Forms.Button();
             this.button15 = new System.Windows.Forms.Button();
+            this.button14 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // richTextBox1
@@ -202,9 +203,20 @@ namespace UtilidadesDeSoftware
             this.button15.UseVisualStyleBackColor = true;
             this.button15.Click += new System.EventHandler(this.button15_Click);
             // 
+            // button14
+            // 
+            this.button14.Location = new System.Drawing.Point(215, 502);
+            this.button14.Name = "button14";
+            this.button14.Size = new System.Drawing.Size(110, 23);
+            this.button14.TabIndex = 17;
+            this.button14.Text = "Eliminar Tarjeta";
+            this.button14.UseVisualStyleBackColor = true;
+            this.button14.Click += new System.EventHandler(this.button14_Click);
+            // 
             // RequestHTTP_APITC
             // 
             this.ClientSize = new System.Drawing.Size(928, 638);
+            this.Controls.Add(this.button14);
             this.Controls.Add(this.button15);
             this.Controls.Add(this.button13);
             this.Controls.Add(this.button12);
@@ -245,5 +257,6 @@ namespace UtilidadesDeSoftware
         private System.Windows.Forms.Button button12;
         private System.Windows.Forms.Button button13;
         private System.Windows.Forms.Button button15;
+        private System.Windows.Forms.Button button14;
     }
 }

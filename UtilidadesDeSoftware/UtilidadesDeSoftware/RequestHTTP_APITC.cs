@@ -400,6 +400,42 @@ XBzcBwdtqinkPLLnsIIoKVokl9wLpR43Z/mAlzcSitQ4H2qVCZsrE7fnTOBOwlpO
             return false;
         }
 
+        private void button14_Click(object sender, EventArgs e)
+        {
+            _ = DisableCard();
+        }
+
+        private async Task<bool> DisableCard()
+        {
+            var result = await GetPostHttpRequestApiTc<PWRetrieveTransactionResponseDto>("Disablecard?id=483");
+            richTextBox1.Text = JsonConvert.SerializeObject(result);
+            return false;
+        }
+
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            Random _random = new Random(DateTime.UtcNow.Millisecond + 100009);
+            var unixTimestamp = _random.NextDouble().ToString().Replace(",", "").Replace(".", "").Remove(0, 1).Substring(0, 4);
+            textBox1.Text = unixTimestamp;
+        }
+        private void button11_Click(object sender, EventArgs e)
+        {
+            var obj = SetTokenizarTarjetaCliente();
+            var objEncrypted = Encrypted.Encrypt<PWTokenizeCustomerCardRequestDto>(obj);
+            richTextBox1.Text = objEncrypted;
+        }
+
+        private void button12_Click(object sender, EventArgs e)
+        {
+            var obj = richTextBox1.Text;
+            var objDecrypted = Encrypted.Decrypt<PWTokenizeCustomerCardRequestDto>(obj);
+            var content = JsonConvert.SerializeObject(objDecrypted);
+            richTextBox1.Text = content;
+
+        }
+
+
         #region ENCRYPTED
         private void button15_Click(object sender, EventArgs e)
         {
@@ -422,54 +458,30 @@ XBzcBwdtqinkPLLnsIIoKVokl9wLpR43Z/mAlzcSitQ4H2qVCZsrE7fnTOBOwlpO
 
         public string EncryptObject<T>(T obj)
         {
-            var publicKey = ReadFileKeyPem();
+            //var publicKey = ReadFileKeyPem();
 
-            var jsonData = JsonConvert.SerializeObject(obj);
-            byte[] publicKeyBytes = Convert.FromBase64String(publicKey);
+            //var jsonData = JsonConvert.SerializeObject(obj);
+            //byte[] publicKeyBytes = Convert.FromBase64String(publicKey);
 
-            using (var rsa = RSA.Create())
-            {
-                // Importar clave pública desde Base64
-                rsa.ImportFromPem (publicKey);
+            //using (var rsa = RSA.Create())
+            //{
+            //    // Importar clave pública desde Base64
+            //   // rsa.ImportFromPem (publicKey);
 
-                // Encriptar los datos utilizando RSA
-                byte[] encryptedData = rsa.Encrypt(Encoding.UTF8.GetBytes(data), RSAEncryptionPadding.OaepSHA256);
+            //    // Encriptar los datos utilizando RSA
+            //    byte[] encryptedData = rsa.Encrypt(Encoding.UTF8.GetBytes(data), RSAEncryptionPadding.OaepSHA256);
 
-                // Convertir datos encriptados a Base64
-                return Convert.ToBase64String(encryptedData);
-            }
+            //    // Convertir datos encriptados a Base64
+            //    return Convert.ToBase64String(encryptedData);
+            //}
+
+            return "";
         }
 
 
 
         #endregion
 
-
-
-
-
-        private void button10_Click(object sender, EventArgs e)
-        {
-            Random _random = new Random(DateTime.UtcNow.Millisecond + 100009);
-            var unixTimestamp = _random.NextDouble().ToString().Replace(",", "").Replace(".", "").Remove(0, 1).Substring(0, 4);
-            textBox1.Text = unixTimestamp;
-        }
-        private void button11_Click(object sender, EventArgs e)
-        {
-            var obj = SetTokenizarTarjetaCliente();
-            var objEncrypted= Encrypted.Encrypt<PWTokenizeCustomerCardRequestDto>(obj);
-            richTextBox1.Text = objEncrypted;
-        }
-
-        private void button12_Click(object sender, EventArgs e)
-        {
-            var obj = richTextBox1.Text;
-            var objDecrypted = Encrypted.Decrypt<PWTokenizeCustomerCardRequestDto>(obj);
-            var content = JsonConvert.SerializeObject(objDecrypted);
-            richTextBox1.Text = content;
-           
-        }
-
-      
+       
     }
 }

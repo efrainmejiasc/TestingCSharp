@@ -37,6 +37,7 @@
             textBox3 = new TextBox();
             button1 = new Button();
             button2 = new Button();
+            button3 = new Button();
             SuspendLayout();
             // 
             // richTextBox1
@@ -115,11 +116,22 @@
             button2.UseVisualStyleBackColor = true;
             button2.Click += button2_Click;
             // 
+            // button3
+            // 
+            button3.Location = new Point(647, 424);
+            button3.Name = "button3";
+            button3.Size = new Size(152, 23);
+            button3.TabIndex = 9;
+            button3.Text = "GTC";
+            button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
+            // 
             // Form4
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(button3);
             Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(textBox3);
@@ -131,7 +143,7 @@
             Controls.Add(richTextBox1);
             Name = "Form4";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "DECRYPT";
+            Text = "DECRYPT  F4";
             Load += Form4_Load;
             ResumeLayout(false);
             PerformLayout();
@@ -148,5 +160,6 @@
         private TextBox textBox3;
         private Button button1;
         private Button button2;
+        private Button button3;
     }
 }

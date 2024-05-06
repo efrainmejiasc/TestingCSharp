@@ -131,7 +131,7 @@
             Controls.Add(button2);
             Name = "Form5";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "ENCRYPT";
+            Text = "ENCRYPT F5";
             Load += Form5_Load;
             ResumeLayout(false);
             PerformLayout();

@@ -7,6 +7,7 @@ using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.OpenSsl;
 using Org.BouncyCastle.Security;
 using System.Linq.Expressions;
+using System.Net.Http.Headers;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -112,7 +113,7 @@ namespace WinFormsApp1
         private void button6_Click(object sender, EventArgs e)
         {
             var encryptedDataBase64 = richTextBox1.Text.Trim();
-           // var encryptedDataBase64 = @"gruxXGZ9R4Gyo4EXNXo1OZt65/HqtrzAQgCk+OTcok2aT4eGf3TNVqwxDD68sjq0CyOkKa72KYQmR2SFCibwbD3cWC6PNsAOcWbfWz5N2CYisbNa4Cysm8nVA4jP3gqTrWfxqAOTmh/PhzyQ/+36i07HzWa104Yx+Iu2oa1GzmR7sBu64qZ0f8BQqWLuKZF6uA+/KG9woZ7p7+MiCCGbqiKancvvJCzTjg9TLs/LUMMLh0zBdBMC0gQm3oo4u1ER2POWMP6GHouVKqFGf2KDYu2uG5tRmUXBQSlbXBMT8mNJWCMVGXnWrA4vARUtYUrH2HrEkZTdrXondBA6H08u87VZ4WSYDq8QdqgP4Ve0YxVGF9X5tvtEe2r0568bEyMkOOrCgIZvCSAt2x9lqtxi001if+tHqGs2A13F8iPV3hVuVgU/B5f1Ud8C/CKm1aoXZ/5No2ZRKRfE52//Hlz3DPrS4QHUq1VBayPrvZNpc25MXHkGx5Zh/UvvZGKfkn77dYFTljx04fPQnLCFihASHancTABqRnA9nJwm0PqVWTXC9MmXYZPOVPfREZ7+JfZAXAUb3CQQemco99QR57WbrFmr2tUIStZdqzf7gksXdoJXofA2r6CeOTfvxrQIrU+0XK98HaZu3urrSV0F6gyzd/0ZhvHmu2mBve3sH6Lq/+OnZSt7Urtoou9FlMwiFhnI3wNWTscqdPGdckQYQ3YfYZNHW9nZgSXk20tnkBi5G7eDkriVIEXKhzKCZz1gew4gdSQjF99P8Rit0c7muBZUNV5V4dumiQ9BSOGwK9OXX8cOGP+ua1kVa1T07QPyVYCKG6yXS6c7rGTrjkbXnWHbjzqFTPdcNsyjAh7H0FbOncb5xHPp2tQHGhLOJCwnooj5hAeDI6BWiqfocvFJGxms/2tozTd0wWRr6PCkUDF+c6soUWqHgqPlcN3dgGVOl5qAxn0RLHYZKZVtuJURVBk74n0St+Qz5bewUjr35zZQ/TjF9YngQX7zaM+ELdC8hqyBCTDzsvfgLAeTGHLAdoDzpGg6O1dOE0aoHplAItT7IkWm8XHFfusYNLEW/NqkLrbMDD0VdlVE0ftQY1Pxn8epZTir3cj+xYx02hyymro4+rFG6niJc5Cl2sSLE2edTxyPd9mHVtGALlI15htGIj11fwNApLJUuAavKxWHXN9jc+qI+6QKEGiKHkiQAgLJ6e4OwUItFwCpmBFUUrLGjca50Fr/8Mmnqo2bK5f7Ch5/n/qRC4NMTlbHHMhpibWSW9XpKDiCeuufq1/qomy2ezJERx2sMCMWuS2IIJcip0hDHECPa/YeYFBOg9bzigEV0pNHvprIPlKkNIEoW7YuaoQwYg==";
+            // var encryptedDataBase64 = @"gruxXGZ9R4Gyo4EXNXo1OZt65/HqtrzAQgCk+OTcok2aT4eGf3TNVqwxDD68sjq0CyOkKa72KYQmR2SFCibwbD3cWC6PNsAOcWbfWz5N2CYisbNa4Cysm8nVA4jP3gqTrWfxqAOTmh/PhzyQ/+36i07HzWa104Yx+Iu2oa1GzmR7sBu64qZ0f8BQqWLuKZF6uA+/KG9woZ7p7+MiCCGbqiKancvvJCzTjg9TLs/LUMMLh0zBdBMC0gQm3oo4u1ER2POWMP6GHouVKqFGf2KDYu2uG5tRmUXBQSlbXBMT8mNJWCMVGXnWrA4vARUtYUrH2HrEkZTdrXondBA6H08u87VZ4WSYDq8QdqgP4Ve0YxVGF9X5tvtEe2r0568bEyMkOOrCgIZvCSAt2x9lqtxi001if+tHqGs2A13F8iPV3hVuVgU/B5f1Ud8C/CKm1aoXZ/5No2ZRKRfE52//Hlz3DPrS4QHUq1VBayPrvZNpc25MXHkGx5Zh/UvvZGKfkn77dYFTljx04fPQnLCFihASHancTABqRnA9nJwm0PqVWTXC9MmXYZPOVPfREZ7+JfZAXAUb3CQQemco99QR57WbrFmr2tUIStZdqzf7gksXdoJXofA2r6CeOTfvxrQIrU+0XK98HaZu3urrSV0F6gyzd/0ZhvHmu2mBve3sH6Lq/+OnZSt7Urtoou9FlMwiFhnI3wNWTscqdPGdckQYQ3YfYZNHW9nZgSXk20tnkBi5G7eDkriVIEXKhzKCZz1gew4gdSQjF99P8Rit0c7muBZUNV5V4dumiQ9BSOGwK9OXX8cOGP+ua1kVa1T07QPyVYCKG6yXS6c7rGTrjkbXnWHbjzqFTPdcNsyjAh7H0FbOncb5xHPp2tQHGhLOJCwnooj5hAeDI6BWiqfocvFJGxms/2tozTd0wWRr6PCkUDF+c6soUWqHgqPlcN3dgGVOl5qAxn0RLHYZKZVtuJURVBk74n0St+Qz5bewUjr35zZQ/TjF9YngQX7zaM+ELdC8hqyBCTDzsvfgLAeTGHLAdoDzpGg6O1dOE0aoHplAItT7IkWm8XHFfusYNLEW/NqkLrbMDD0VdlVE0ftQY1Pxn8epZTir3cj+xYx02hyymro4+rFG6niJc5Cl2sSLE2edTxyPd9mHVtGALlI15htGIj11fwNApLJUuAavKxWHXN9jc+qI+6QKEGiKHkiQAgLJ6e4OwUItFwCpmBFUUrLGjca50Fr/8Mmnqo2bK5f7Ch5/n/qRC4NMTlbHHMhpibWSW9XpKDiCeuufq1/qomy2ezJERx2sMCMWuS2IIJcip0hDHECPa/YeYFBOg9bzigEV0pNHvprIPlKkNIEoW7YuaoQwYg==";
             var model = DecryptData<JsonData>(encryptedDataBase64);
             richTextBox1.Text = JsonConvert.SerializeObject(model);
             //Decrypted();
@@ -517,6 +518,38 @@ NwIDAQAB
             };
         }
 
-     
+        private void Form1_Load(object sender, EventArgs e)
+        {
+           _ = GetAccessTokenAuthBankColombia();
+        }
+
+
+
+        public async Task<string> GetAccessTokenAuthBankColombia()
+        {
+            string respuesta = string.Empty;
+            using (HttpClient client = new HttpClient())
+            {
+                byte[] byteArray = Encoding.UTF8.GetBytes("123456789"+ ":" + "abcdefghji");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/x-www-form-urlencoded"));
+                Uri url = new Uri("https://localhost:7234/api/Authentication/RetrieveAccessToken/RetrieveAccessToken", UriKind.Absolute);
+                List<KeyValuePair<string, string>> formData = new List<KeyValuePair<string, string>>();
+                formData.Add(new KeyValuePair<string, string>("grant_type","grant_type"));
+                formData.Add(new KeyValuePair<string, string>("scope", "igfusidfgfdsiudgfoidfuipdrfgeip"));
+                HttpContent content = new FormUrlEncodedContent(formData);
+                HttpResponseMessage response = await client.PostAsync(url, content);
+                if (response.IsSuccessStatusCode)
+                {
+                    respuesta = await response.Content.ReadAsStringAsync();
+                }
+                else
+                    respuesta = await response.Content.ReadAsStringAsync();
+
+
+            }
+            return null;
+        }
     }
 }
