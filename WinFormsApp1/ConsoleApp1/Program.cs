@@ -1,10 +1,13 @@
 ﻿using Amazon;
 using Amazon.CognitoIdentityProvider;
+using Amazon.CognitoIdentityProvider.Model;
 using Amazon.Extensions.CognitoAuthentication;
 using Amazon.Runtime;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Security.Cryptography;
+using static Program.AuthService;
 
 public class Program
 {
@@ -81,12 +84,22 @@ public class Program
         //    Console.WriteLine("Opción inválida. Por favor, escriba '1' para cifrar o '2' para descifrar.");
         //}
 
-        var authService = new AuthService();
-        var tokens = await authService.FetchTokens();
+        //***************************************************
 
-        Console.WriteLine($"Access Token: {tokens.AccessToken}");
-        Console.WriteLine($"Id Token: {tokens.IdToken}");
+        var authService = new CognitoAuthService(
+        region: "us-east-1",
+        clientId: "6uaab73utm9bfnpg8gbkubecm3",
+        poolId: "us-east-1_T66ODA7Q3",
+        jwks: "{\"keys\":[{\"alg\":\"RS256\",\"e\":\"AQAB\",\"kid\":\"cmCbV18kScc0rZpIHxjHYqUWuuP+yoZu9ytk7G64yis=\",\"kty\":\"RSA\",\"n\":\"2Bj1Vz78HDe4QAYhtIQq2kXr_vz25I0j3QfVzhqAHTSYH5zXAjLljg-KPt4-WJA4rIPkKJDwoUY5A9-2DhapkvUeqjJdIHwMqVb2uo5K56DYow5vAMPjPPsQDw1qMSgZQnMK03pu8VsSzHLn3KXoVtE38wfGir1wEHy8qZFRRQJShp_SoZCyDG4XPqYna_KwO2LORF8l7LL5vpVq4UOAjzdQI-CE4F7D1zZqnGk7REbwaVne8lbhOzsi1rDcaH1ivzS_3yudkMCOl8QsL6m-G9WANlDoY6lsSyMQoe4qgCzLNtaSRAHhTiPLtSmUAMQSlR9WQvB7UA7kWeauWVB-MQ\",\"use\":\"sig\"},{\"alg\":\"RS256\",\"e\":\"AQAB\",\"kid\":\"pb3qSCivNFCdUc/6ulr0N0yfhG608EIZvfKnlV+o+Ns=\",\"kty\":\"RSA\",\"n\":\"rglr9AEbKXA2sXQu_j3JmHmTLfVhG7jF4uNMPc8XHXfWDrpWJAnMbzSLIDg-qBWzWn9ExX1f862tunvqnj99seznHHUgf_VZbvUgekTxe3H8IKPP6v5MCT9NC4WRB7WW5DIOVAJ0ZepncLmiYBCFstj6_LjaSAqqwqdcmNG2F1MuQiQ_lhEpKg5XxD0AUOhHPOVhmVg5AbQxBbPQVXV25csbtigUASool6onRF4t2DMRvA--FssVbx9PdmlFVTydRPaAcY9YjAo8axQw0KGYcYZz6krY47UnqLdx0y32qT9DIAf06PTGWAYJU_qctbXAGBXnzVK2zh91_8M8k42x9Q\",\"use\":\"sig\"}]}"
+       );
 
+        var token = await authService.GetCognitoTokenAsync();
+        Console.WriteLine($"Token JWT: {token}");
+
+        //****************************************************
+
+        //var authService = new AuthService();
+        //var result = await authService.GetAccessTokenAsync();
     }
 
     public class LoginTokens
@@ -108,25 +121,124 @@ public class Program
         private const string Region = "us-east-1";
         private const string IdentityPoolId = "us-east-1_T66ODA7Q3";
 
-        public async Task<LoginTokens> FetchTokens()
+        public async Task<LoginTokens?> FetchTokens()
         {
-            // Configuración de Cognito
-            var provider = new AmazonCognitoIdentityProviderClient(new AnonymousAWSCredentials(), RegionEndpoint.GetBySystemName(Region));
-            var userPool = new CognitoUserPool(IdentityPoolId, AppClientId, provider);
-
-            // Autenticación del usuario
-            var user = new CognitoUser("6uaab73utm9bfnpg8gbkubecm3", AppClientId, userPool, provider);
-            var authRequest = new InitiateSrpAuthRequest()
+            try
             {
-                Password = "4t944pjmqa2d14dad1b6acenonslknvb45crnn28tjak8lai7ct"
-            };
-            var authResult = await user.StartWithSrpAuthAsync(authRequest).ConfigureAwait(false);
+                // Configuración de Cognito
+                var provider = new AmazonCognitoIdentityProviderClient(new AnonymousAWSCredentials(), RegionEndpoint.GetBySystemName(Region));
+                var userPool = new CognitoUserPool(IdentityPoolId, AppClientId, provider);
 
-            // Obtención de tokens de acceso e identificación
-            var accessToken = authResult.AuthenticationResult.AccessToken;
-            var idToken = authResult.AuthenticationResult.IdToken;
+                // Autenticación del usuario
+                var user = new CognitoUser("pruebageneral30524@yopmail.com", AppClientId, userPool, provider);
+                var authRequest = new InitiateSrpAuthRequest()
+                {
+                    Password = "Pruebas1234."
+                };
+                var authResult = await user.StartWithSrpAuthAsync(authRequest).ConfigureAwait(false);
 
-            return new LoginTokens(accessToken, idToken);
+                // Obtención de tokens de acceso e identificación
+                var accessToken = authResult.AuthenticationResult.AccessToken;
+                var idToken = authResult.AuthenticationResult.IdToken;
+
+                return new LoginTokens(accessToken, idToken);
+            }
+            catch (Exception ev)
+            {
+                var error = ev.ToString();
+            }
+
+            return null;
         }
+
+
+
+        public async Task<string> GetAccessTokenAsync()
+        {
+            var tokenUrl = "https://testmaasapp.auth.us-east-1.amazoncognito.com/oauth2/token";
+            var clientId = "6uaab73utm9bfnpg8gbkubecm3";
+            var clientSecret = "4t944pjmqa2d14dad1b6acenonslknvb45crnn28tjak8lai7ct";
+
+            using (var client = new HttpClient())
+            {
+                var requestContent = new FormUrlEncodedContent(new[]
+                {
+                  new KeyValuePair<string, string>("grant_type", "client_credentials"),
+                  new KeyValuePair<string, string>("client_id", clientId),
+                  new KeyValuePair<string, string>("client_secret", clientSecret)
+                });
+
+                var response = await client.PostAsync(tokenUrl, requestContent);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseContent = await response.Content.ReadAsStringAsync();
+                    return responseContent;
+                }
+                else
+                {
+                    throw new Exception($"Error obteniendo token: {response.StatusCode} - {response.ReasonPhrase}");
+                }
+            }
+        }
+
+
+        public class CognitoAuthService
+        {
+            private readonly RegionEndpoint _region;
+            private readonly string _clientId;
+            private readonly string _poolId;
+            private readonly string _jwks;
+
+            public CognitoAuthService()
+            {
+            }
+
+            public CognitoAuthService(string region, string clientId, string poolId, string jwks)
+            {
+                _region = RegionEndpoint.GetBySystemName(region);
+                _clientId = clientId;
+                _poolId = poolId;
+                _jwks = jwks;
+            }
+
+            public async Task<string> GetCognitoTokenAsync()
+            {
+                var credentials = new Amazon.Runtime.BasicAWSCredentials("6uaab73utm9bfnpg8gbkubecm3", "4t944pjmqa2d14dad1b6acenonslknvb45crnn28tjak8lai7ct");
+                var provider = new AmazonCognitoIdentityProviderClient(credentials, _region);
+
+                var initiateAuthRequest = new InitiateAuthRequest
+                {
+                    AuthFlow = AuthFlowType.USER_PASSWORD_AUTH,
+                    AuthParameters = { { "USERNAME", "pruebageneral30524@yopmail.com" }, { "PASSWORD", "Pruebas1234." } },
+                    ClientId = _clientId
+                };
+
+                try
+                {
+                    var initiateAuthResponse = await provider.InitiateAuthAsync(initiateAuthRequest);
+
+                    if (initiateAuthResponse.AuthenticationResult != null)
+                    {
+                        return initiateAuthResponse.AuthenticationResult.IdToken;
+                    }
+                    else
+                    {
+                        throw new Exception("Error authenticating user");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error: {ex.Message}");
+                    throw;
+                }
+
+            }
+        }
+
+
+
+
+
     }
 }
